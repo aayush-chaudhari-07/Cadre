@@ -33,6 +33,7 @@ create table public.organizations (
   plan text not null default 'free' check (plan in ('free', 'pro', 'scale')),
   created_at timestamptz not null default now()
 );
+create index organizations_owner_idx on public.organizations(owner_id);
 
 create table public.memberships (
   org_id uuid not null references public.organizations(id) on delete cascade,
@@ -87,6 +88,7 @@ create table public.lead_interactions (
   created_at timestamptz not null default now()
 );
 create index lead_interactions_lead_idx on public.lead_interactions(lead_id, created_at desc);
+create index lead_interactions_org_idx on public.lead_interactions(org_id, created_at desc);
 
 create table public.deals (
   id uuid primary key default gen_random_uuid(),
@@ -103,6 +105,7 @@ create table public.deals (
   updated_at timestamptz not null default now()
 );
 create index deals_org_idx on public.deals(org_id, stage);
+create index deals_lead_idx on public.deals(lead_id);
 
 create table public.accounts (
   id uuid primary key default gen_random_uuid(),
@@ -251,7 +254,10 @@ begin
     new.id,
     coalesce(new.raw_user_meta_data->>'display_name', new.raw_user_meta_data->>'full_name', split_part(new.email, '@', 1)),
     new.raw_user_meta_data->>'avatar_url'
-  );
+  )
+  on conflict (id) do update set
+    display_name = coalesce(excluded.display_name, profiles.display_name),
+    avatar_url = coalesce(excluded.avatar_url, profiles.avatar_url);
   return new;
 end $$;
 
@@ -268,6 +274,8 @@ alter table public.memberships enable row level security;
 alter table public.ai_usage enable row level security;
 
 create policy profiles_select_own on public.profiles for select to authenticated using (id = auth.uid());
+create policy profiles_insert_own on public.profiles for insert to authenticated
+  with check (id = auth.uid());
 create policy profiles_update_own on public.profiles for update to authenticated
   using (id = auth.uid()) with check (id = auth.uid());
 
@@ -392,10 +400,12 @@ begin
 end $$;
 
 -- Only signed-in users may call these
+revoke execute on function public.is_org_member(uuid) from public, anon;
 revoke execute on function public.create_organization(text) from public, anon;
 revoke execute on function public.consume_ai_quota(int) from public, anon;
 revoke execute on function public.seed_demo_data(uuid) from public, anon;
 revoke execute on function public.clear_demo_data(uuid) from public, anon;
+grant execute on function public.is_org_member(uuid) to authenticated;
 grant execute on function public.create_organization(text) to authenticated;
 grant execute on function public.consume_ai_quota(int) to authenticated;
 grant execute on function public.seed_demo_data(uuid) to authenticated;

@@ -27,7 +27,7 @@ Last updated: Prompt 3 (Database, types and Supabase config)
   - Validated with `npm run typecheck`, `npm run lint`, and `npm run build` (all pass with 0 errors).
 - [x] **Prompt 3: Database, types and Supabase config:**
   - Initialized clean Supabase configuration (`supabase/config.toml` with `project_id = "cadre"`).
-  - Preserved `supabase/migrations/0001_init.sql` intact; audited schema for index gaps and policy edge cases.
+  - Audited and refined `supabase/migrations/0001_init.sql`: added missing indexes for foreign key cascading and RLS lookups (`lead_interactions.org_id`, `deals.lead_id`, `organizations.owner_id`), added idempotent upsert logic to `handle_new_user()`, added client `profiles_insert_own` fallback policy, and secured function grants.
   - Implemented typed browser Supabase client (`src/lib/supabase.ts`) enforcing `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` check on boot (zero service role key exposure).
   - Implemented comprehensive hand-written schema typings in `src/types/database.ts` covering all 14 tables, row/insert/update types, and RPC signatures (`create_organization`, `consume_ai_quota`, `seed_demo_data`, `clear_demo_data`, `is_org_member`).
   - Configured TanStack Query client (`src/lib/query-client.ts`) with sensible defaults (`staleTime: 30s`, `retry: 1`, `refetchOnWindowFocus: false`).
@@ -54,7 +54,7 @@ Once you have created your Supabase project in the Supabase Dashboard:
 *(Note: If using local Docker development instead, run `npx supabase start` followed by `npm run types`).*
 
 ## In progress
-- Awaiting user review of migration audit findings before modifying `supabase/migrations/0001_init.sql`.
+- Ready to proceed with **Prompt 4: Authentication, onboarding and route guards**.
 
 ## Next
 1. **Prompt 4: Authentication, onboarding and route guards**
