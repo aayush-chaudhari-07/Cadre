@@ -1,6 +1,6 @@
 # Cadre Project Status
 
-Last updated: Prompt 2 (Design System and Motion Primitives)
+Last updated: Prompt 3 (Database, types and Supabase config)
 
 ## Done
 - [x] Full architectural and codebase audit completed (`PROJECT_INFO.md`).
@@ -25,48 +25,71 @@ Last updated: Prompt 2 (Design System and Motion Primitives)
   - Implemented `src/lib/format.ts` (`formatCurrency` in USD via Intl, `formatNumber`, `formatPercent`, `formatRelativeDate`) and `src/lib/utils.ts` (`cn`).
   - Built temporary `/design` showcase route (`src/routes/design.tsx`) verifying all components and animations.
   - Validated with `npm run typecheck`, `npm run lint`, and `npm run build` (all pass with 0 errors).
+- [x] **Prompt 3: Database, types and Supabase config:**
+  - Initialized clean Supabase configuration (`supabase/config.toml` with `project_id = "cadre"`).
+  - Preserved `supabase/migrations/0001_init.sql` intact; audited schema for index gaps and policy edge cases.
+  - Implemented typed browser Supabase client (`src/lib/supabase.ts`) enforcing `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` check on boot (zero service role key exposure).
+  - Implemented comprehensive hand-written schema typings in `src/types/database.ts` covering all 14 tables, row/insert/update types, and RPC signatures (`create_organization`, `consume_ai_quota`, `seed_demo_data`, `clear_demo_data`, `is_org_member`).
+  - Configured TanStack Query client (`src/lib/query-client.ts`) with sensible defaults (`staleTime: 30s`, `retry: 1`, `refetchOnWindowFocus: false`).
+  - Authored multi-tenant RLS isolation test suite in `tests/sql/isolation.md` (SQL impersonation script and Supabase-JS verification snippets).
+
+## How to generate types from your remote Supabase project
+Once you have created your Supabase project in the Supabase Dashboard:
+1. Log in with the Supabase CLI:
+   ```bash
+   npx supabase login
+   ```
+2. Link your local project to your remote Supabase project:
+   ```bash
+   npx supabase link --project-ref <your-project-ref>
+   ```
+3. Push the migration to your database:
+   ```bash
+   npx supabase db push
+   ```
+4. Regenerate TypeScript definitions from the live remote schema:
+   ```bash
+   npx supabase gen types typescript --project-id <your-project-ref> > src/types/database.ts
+   ```
+*(Note: If using local Docker development instead, run `npx supabase start` followed by `npm run types`).*
 
 ## In progress
-- Ready to proceed with **Prompt 3: Database, types and Supabase config**.
+- Awaiting user review of migration audit findings before modifying `supabase/migrations/0001_init.sql`.
 
 ## Next
-1. **Prompt 3: Database, types and Supabase config**
-   - Review and verify `supabase/migrations/0001_init.sql`.
-   - Setup `src/lib/supabase.ts` and generate `src/types/database.ts`.
-   - Document RLS isolation test in `tests/sql/isolation.md`.
-2. **Prompt 4: Authentication, onboarding and route guards**
+1. **Prompt 4: Authentication, onboarding and route guards**
    - Implement `AuthProvider`, `/login`, `/signup`, `/forgot-password`, `/reset-password`.
    - Build `WorkspaceProvider` and `/onboarding`.
    - Enforce route protection on `/app/*`.
-3. **Prompt 5: App shell**
+2. **Prompt 5: App shell**
    - Build `src/routes/app/route.tsx` with collapsible sidebar, top bar, Cmd+K palette.
    - Stub module routes with branded 404 and error boundaries.
-4. **Prompt 6: Landing page, pricing and legal pages**
+3. **Prompt 6: Landing page, pricing and legal pages**
    - Build marketing sections: Hero, BuiltWith, Bento, AgentOrbit, Interactive Demo, HowItWorks, Pricing, FAQ, Final CTA, Footer.
    - Add `/pricing`, `/terms`, `/privacy` routes and generate `og-image.png`.
-5. **Prompt 7: Edge Function infrastructure and Gemini client**
+4. **Prompt 7: Edge Function infrastructure and Gemini client**
    - Scaffold `supabase/functions/_shared/` (cors, http, auth, quota, gemini, schemas, prompts, safe-url).
    - Setup client-side `src/lib/ai.ts` helpers and write Deno tests.
-6. **Prompt 8: Leads module**
+5. **Prompt 8: Leads module**
    - Build `/app/leads` table, CSV import, drawer, and `analyze-lead` Edge Function.
-7. **Prompt 9: Meetings module**
+6. **Prompt 9: Meetings module**
    - Build `/app/meetings` list, VTT/SRT transcript upload, and `analyze-meeting` Edge Function.
-8. **Prompt 10: Churn module**
+7. **Prompt 10: Churn module**
    - Build `/app/churn` account table, MRR-at-risk metrics, and `analyze-churn` Edge Function.
-9. **Prompt 11: Competitors module**
+8. **Prompt 11: Competitors module**
    - Build `/app/competitors` radar, battlecards, and `scan-competitor` Edge Function with SSRF controls.
-10. **Prompt 12: Revenue and Command Center**
-    - Build `/app/revenue` forecast models, kanban board, and `explain-forecast` Edge Function.
-    - Wire `/app` Command Center with live aggregates.
-11. **Prompt 13: Agents and AI CEO**
+9. **Prompt 12: Revenue and Command Center**
+   - Build `/app/revenue` forecast models, kanban board, and `explain-forecast` Edge Function.
+   - Wire `/app` Command Center with live aggregates.
+10. **Prompt 13: Agents and AI CEO**
     - Build `/app/agents` roster and `/app/ceo` strategic planner with `ceo-command` Edge Function.
-12. **Prompt 14: Insights and Settings**
+11. **Prompt 14: Insights and Settings**
     - Build `/app/insights` daily brief (`daily-insights` Edge Function) and `/app/settings` with `delete-account`.
-13. **Prompt 15: Polish, accessibility and performance**
+12. **Prompt 15: Polish, accessibility and performance**
     - Full WCAG 2.2 AA audit, code-splitting, responsive polish, and motion QA.
-14. **Prompt 16: Tests and CI**
+13. **Prompt 16: Tests and CI**
     - Implement Vitest unit/component tests and Playwright E2E flows; verify CI pipeline.
-15. **Prompt 17: Deployment prep, final cleanup and QA**
+14. **Prompt 17: Deployment prep, final cleanup and QA**
     - Delete `legacy/`, run clean string checks, audit security checklist, and report final metrics.
 
 ## Decisions
@@ -78,4 +101,4 @@ Last updated: Prompt 2 (Design System and Motion Primitives)
 - **Currency:** Exclusively USD ($), formatted with `Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })`.
 
 ## Blocked
-- None currently. (User will need to supply Supabase project credentials and a Gemini API key prior to testing Edge Functions in Prompt 7+).
+- None currently.
