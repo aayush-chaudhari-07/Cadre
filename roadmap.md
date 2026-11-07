@@ -1,3 +1,0 @@
-- [ ] Build branded sign-in, sign-up, and password-recovery screens.
-- [ ] Protect the dashboard and connect the signed-in account menu.
-- [ ] Verify public auth screens and protected-route redirects in the preview.
