@@ -1,0 +1,246 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", "Inter", sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-violet: var(--violet);
+  --color-cyan: var(--cyan);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+}
+
+:root {
+  --radius: 0.875rem;
+
+  /* Backgrounds */
+  --background: oklch(1 0 0);                      /* #FFFFFF */
+  --surface: oklch(0.984 0.005 250);               /* #F8FAFC */
+  --surface-2: oklch(0.97 0.018 270);              /* #EEF2FF */
+
+  /* Text */
+  --foreground: oklch(0.205 0.04 265);             /* #0F172A */
+  --muted: oklch(0.97 0.012 255);
+  --muted-foreground: oklch(0.55 0.03 257);        /* #64748B */
+
+  /* Cards / popovers */
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--foreground);
+
+  /* Brand: Indigo 600 */
+  --primary: oklch(0.515 0.225 277);               /* #4F46E5 */
+  --primary-glow: oklch(0.585 0.215 277);          /* #6366F1 */
+  --primary-foreground: oklch(1 0 0);
+
+  --secondary: oklch(0.97 0.012 255);
+  --secondary-foreground: var(--foreground);
+
+  --accent: oklch(0.95 0.04 280);
+  --accent-foreground: oklch(0.42 0.18 277);
+
+  --violet: oklch(0.62 0.205 295);                 /* #8B5CF6 */
+  --cyan: oklch(0.72 0.13 210);                    /* #06B6D4 */
+  --success: oklch(0.7 0.16 155);
+  --warning: oklch(0.78 0.16 75);
+  --destructive: oklch(0.62 0.22 25);
+  --destructive-foreground: oklch(1 0 0);
+
+  --border: oklch(0.93 0.012 255);
+  --border-strong: oklch(0.88 0.018 255);
+  --input: oklch(0.93 0.012 255);
+  --ring: oklch(0.585 0.215 277);
+
+  /* Charts */
+  --chart-1: oklch(0.585 0.215 277);
+  --chart-2: oklch(0.62 0.205 295);
+  --chart-3: oklch(0.72 0.13 210);
+  --chart-4: oklch(0.78 0.16 75);
+  --chart-5: oklch(0.7 0.16 155);
+
+  /* Sidebar */
+  --sidebar: oklch(0.992 0.003 250);
+  --sidebar-foreground: oklch(0.32 0.03 260);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.96 0.025 275);
+  --sidebar-accent-foreground: oklch(0.42 0.18 277);
+  --sidebar-border: oklch(0.94 0.012 255);
+  --sidebar-ring: var(--ring);
+
+  /* Gradients & shadows */
+  --gradient-primary: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #8B5CF6 100%);
+  --gradient-soft: linear-gradient(180deg, #EEF2FF 0%, #FFFFFF 60%);
+  --gradient-mesh: radial-gradient(at 20% 10%, oklch(0.92 0.08 280 / 0.7) 0px, transparent 50%),
+                   radial-gradient(at 80% 0%, oklch(0.9 0.07 210 / 0.5) 0px, transparent 50%),
+                   radial-gradient(at 60% 100%, oklch(0.92 0.07 295 / 0.4) 0px, transparent 50%);
+  --gradient-cyan: linear-gradient(135deg, #06B6D4 0%, #6366F1 100%);
+  --gradient-violet: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);
+
+  --shadow-xs: 0 1px 2px oklch(0.3 0.05 265 / 0.04);
+  --shadow-sm: 0 2px 4px oklch(0.3 0.05 265 / 0.05), 0 1px 2px oklch(0.3 0.05 265 / 0.04);
+  --shadow-md: 0 8px 24px -8px oklch(0.3 0.08 265 / 0.10), 0 2px 6px oklch(0.3 0.05 265 / 0.05);
+  --shadow-lg: 0 20px 50px -20px oklch(0.3 0.12 265 / 0.18), 0 4px 12px oklch(0.3 0.05 265 / 0.06);
+  --shadow-glow: 0 10px 40px -10px oklch(0.55 0.22 277 / 0.35);
+}
+
+.dark {
+  --background: oklch(0.16 0.02 265);
+  --surface: oklch(0.2 0.025 265);
+  --surface-2: oklch(0.24 0.04 270);
+  --foreground: oklch(0.98 0.003 250);
+  --muted: oklch(0.24 0.03 265);
+  --muted-foreground: oklch(0.7 0.03 257);
+  --card: oklch(0.2 0.025 265);
+  --card-foreground: oklch(0.98 0.003 250);
+  --popover: oklch(0.2 0.025 265);
+  --popover-foreground: oklch(0.98 0.003 250);
+  --border: oklch(1 0 0 / 8%);
+  --border-strong: oklch(1 0 0 / 14%);
+  --input: oklch(1 0 0 / 12%);
+  --sidebar: oklch(0.18 0.025 265);
+  --sidebar-foreground: oklch(0.9 0.01 255);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-accent: oklch(0.28 0.06 275);
+  --sidebar-accent-foreground: oklch(0.92 0.05 280);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html, body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-feature-settings: "cv11", "ss01", "ss03";
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@utility text-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-gradient-primary {
+  background-image: var(--gradient-primary);
+}
+@utility bg-gradient-soft {
+  background-image: var(--gradient-soft);
+}
+@utility bg-gradient-mesh {
+  background-image: var(--gradient-mesh);
+}
+@utility bg-gradient-cyan {
+  background-image: var(--gradient-cyan);
+}
+@utility bg-gradient-violet {
+  background-image: var(--gradient-violet);
+}
+
+@utility glass {
+  background: color-mix(in oklab, white 70%, transparent);
+  backdrop-filter: saturate(180%) blur(18px);
+  border: 1px solid color-mix(in oklab, white 60%, transparent);
+}
+@utility glass-strong {
+  background: color-mix(in oklab, white 85%, transparent);
+  backdrop-filter: saturate(180%) blur(24px);
+  border: 1px solid var(--color-border);
+}
+
+@utility shadow-elegant {
+  box-shadow: var(--shadow-lg);
+}
+@utility shadow-soft {
+  box-shadow: var(--shadow-md);
+}
+@utility shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+@utility ring-focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 35%, transparent);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes blob {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(20px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.97); }
+}
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@utility animate-float { animation: float 6s ease-in-out infinite; }
+@utility animate-blob { animation: blob 18s ease-in-out infinite; }
+@utility animate-shimmer {
+  background: linear-gradient(90deg, transparent, oklch(0.97 0.012 255 / 0.9), transparent);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}

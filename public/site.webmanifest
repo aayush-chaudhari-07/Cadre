@@ -1,0 +1,12 @@
+{
+  "name": "Cadre",
+  "short_name": "Cadre",
+  "description": "The AI team that runs your revenue.",
+  "start_url": "/app",
+  "display": "standalone",
+  "background_color": "#05060A",
+  "theme_color": "#05060A",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,17 @@
+node_modules
+dist
+.env
+.env.*
+!.env.example
+*.local
+*.zip
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+coverage
+playwright-report
+test-results
+supabase/.temp
+supabase/.env
+.wrangler

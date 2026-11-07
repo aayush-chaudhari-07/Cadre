@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Cadre">
+  <defs>
+    <linearGradient id="aurora" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#2DE2A6"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.3" r="0.65">
+      <stop offset="0" stop-color="#2DE2A6" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#2DE2A6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0B0D14"/>
+  <rect width="512" height="512" rx="112" fill="url(#halo)"/>
+  <rect x="3" y="3" width="506" height="506" rx="109" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="6"/>
+  <g fill="none" stroke="url(#aurora)" stroke-width="12" stroke-linecap="round">
+    <path d="M150 350 C150 270 256 250 256 160"/>
+    <path d="M256 380 L256 160"/>
+    <path d="M362 350 C362 270 256 250 256 160"/>
+  </g>
+  <circle cx="150" cy="350" r="28" fill="url(#aurora)"/>
+  <circle cx="256" cy="380" r="28" fill="url(#aurora)"/>
+  <circle cx="362" cy="350" r="28" fill="url(#aurora)"/>
+  <circle cx="256" cy="160" r="46" fill="#F4F6FA"/>
+  <circle cx="256" cy="160" r="22" fill="#F5B94A"/>
+</svg>
