@@ -111,3 +111,4 @@ export async function resendConfirmationEmail(email: string) {
   if (error) throw error;
   return data;
 }
+

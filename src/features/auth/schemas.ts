@@ -80,3 +80,4 @@ export function getFriendlyAuthErrorMessage(error: unknown): string {
 
   return message;
 }
+

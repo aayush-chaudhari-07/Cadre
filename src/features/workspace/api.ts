@@ -83,3 +83,4 @@ export async function fetchUserPrimaryWorkspace(userId: string): Promise<{
     organization: org,
   };
 }
+

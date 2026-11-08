@@ -61,3 +61,4 @@ export function GoogleButton({ redirectPath = '/app', onError }: GoogleButtonPro
     </Button>
   );
 }
+

@@ -39,3 +39,4 @@ describe('validateRedirectPath', () => {
     expect(validateRedirectPath({})).toBe('/app');
   });
 });
+

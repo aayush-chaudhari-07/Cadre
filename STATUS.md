@@ -64,21 +64,46 @@ Once you have created your Supabase project in the Supabase Dashboard:
    ```
 *(Note: If using local Docker development instead, run `npx supabase start` followed by `npm run types`).*
 
+- [x] **Prompt 5: App shell:**
+  - Implemented signed-in shell layout in `src/routes/app/route.tsx` with collapsible sidebar (240px / 72px) and mobile sheet drawer (`DrawerContent side="left"`).
+  - Added all 10 sidebar navigation items in exact design doc order with Lucide icons, active mint pill sliding via `layoutId="sidebar-active-pill"`, workspace name/plan header, and real-time AI quota footer card read from `ai_usage`.
+  - Implemented sticky top bar (`AppTopbar`) with dynamic breadcrumbs, AI usage pill (`useAiUsage`), `ThemeToggle`, `Ctrl/Cmd+K` palette trigger, and user profile menu (display name, email, settings link, sign-out handler).
+  - Built global Command Palette (`CommandPalette`) with keyboard shortcuts (⌘K/Ctrl+K, ⌘N), module jump navigation, theme switcher, and sign-out action.
+  - Implemented all 9 module route placeholders: `/app/leads`, `/app/meetings`, `/app/churn`, `/app/competitors`, `/app/revenue`, `/app/agents`, `/app/ceo`, `/app/insights`, `/app/settings`.
+  - Implemented branded 404 page (`src/components/branded-not-found.tsx` and `src/routes/$.tsx`) and Error Boundary (`src/components/branded-error-boundary.tsx`), both featuring the custom agent-node motif.
+  - Added accessibility features: visible skip-to-content landmark link, keyboard navigation across sidebar and command palette, and persisted sidebar collapsed state in `localStorage` under `cadre.sidebar_collapsed`.
+  - Validated: `npm run lint` (0 errors, 0 warnings), `npm run typecheck` (0 errors), `npm run test` (18/18 passing), `npm run build` (built in 4.31s).
+
+## How to generate types from your remote Supabase project
+Once you have created your Supabase project in the Supabase Dashboard:
+1. Log in with the Supabase CLI:
+   ```bash
+   npx supabase login
+   ```
+2. Link your local project to your remote Supabase project:
+   ```bash
+   npx supabase link --project-ref <your-project-ref>
+   ```
+3. Push the migration to your database:
+   ```bash
+   npx supabase db push
+   ```
+4. Regenerate TypeScript definitions from the live remote schema:
+   ```bash
+   npx supabase gen types typescript --project-id <your-project-ref> > src/types/database.ts
+   ```
+*(Note: If using local Docker development instead, run `npx supabase start` followed by `npm run types`).*
+
 ## In progress
-- Ready to proceed with **Prompt 5: App shell**.
+- Ready to proceed with **Prompt 6: Landing page, pricing and legal pages**.
 
 ## Next
-1. **Prompt 5: App shell**
-   - Build `src/routes/app/route.tsx` with collapsible sidebar (240px / 72px, drawer on mobile), top bar, breadcrumb, Cmd+K palette.
-   - Stub all 9 module route files as simple placeholder pages with titles.
-   - Branded 404 and error boundary pages with agent-node motif.
-2. **Prompt 6: Landing page, pricing and legal pages**
-   - Build `src/routes/app/route.tsx` with collapsible sidebar, top bar, Cmd+K palette.
-   - Stub module routes with branded 404 and error boundaries.
-3. **Prompt 6: Landing page, pricing and legal pages**
-   - Build marketing sections: Hero, BuiltWith, Bento, AgentOrbit, Interactive Demo, HowItWorks, Pricing, FAQ, Final CTA, Footer.
-   - Add `/pricing`, `/terms`, `/privacy` routes and generate `og-image.png`.
-4. **Prompt 7: Edge Function infrastructure and Gemini client**
+1. **Prompt 6: Landing page, pricing and legal pages**
+   - Build marketing sections in `src/components/marketing`: Hero, BuiltWith, ProblemStats, Bento, AgentOrbit, Demo, HowItWorks, Pricing, Faq, FinalCta, Footer.
+   - Word-reveal headline, tilting dashboard preview, Lenis smooth scroll on landing, ScrollProgress bar.
+   - Standalone `/pricing`, `/terms`, `/privacy` pages.
+   - Generate `public/og-image.png` (1200x630) with script.
+2. **Prompt 7: Edge Function infrastructure and Gemini client**
    - Scaffold `supabase/functions/_shared/` (cors, http, auth, quota, gemini, schemas, prompts, safe-url).
    - Setup client-side `src/lib/ai.ts` helpers and write Deno tests.
 5. **Prompt 8: Leads module**

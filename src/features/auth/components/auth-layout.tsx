@@ -100,3 +100,4 @@ export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProp
     </div>
   );
 }
+
