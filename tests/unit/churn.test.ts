@@ -109,3 +109,4 @@ describe('MRR-at-Risk and Churn Metrics Calculations', () => {
     expect(metrics.upcomingRenewalsCount).toBe(0);
   });
 });
+

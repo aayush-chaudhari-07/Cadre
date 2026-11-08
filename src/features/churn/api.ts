@@ -103,3 +103,4 @@ export async function deleteAccount(
     throw new Error(error.message);
   }
 }
+

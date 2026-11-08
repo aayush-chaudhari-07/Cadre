@@ -1,6 +1,6 @@
 # Cadre Project Status
 
-Last updated: Prompt 10 (Churn module)
+Last updated: Prompt 11 (Competitors module)
 
 ## Done
 - [x] Full architectural and codebase audit completed (`PROJECT_INFO.md`).
@@ -147,24 +147,36 @@ The legal pages in `src/routes/terms.tsx` and `src/routes/privacy.tsx` contain s
   - Created unit tests in `tests/unit/churn.test.ts` (6 tests) verifying total MRR, high+critical MRR-at-risk, account counts, renewal date calculations, and empty array handling.
   - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (45/45 passing), `npm run build` (built in 6.92s).
 
+- [x] **Prompt 11: Competitors module:**
+  - Implemented `supabase/functions/scan-competitor/index.ts` with CORS, JWT authentication, Marketing agent enabled check, quota validation, safe URL page fetch (`fetchPublicPage`) with SSRF defense (blocking loopback, private RFC 1918, link-local, cloud metadata IPs, DNS re-resolution, 3-redirect cap, 8s timeout, 500KB cap, HTML visible text extraction capped at 12,000 chars), Gemini reasoning with `COMPETITOR_SCAN_PROMPT`, updating `competitors` row (`analysis`, `last_scanned_at`), and logging audit row in `agent_runs` for the Marketing agent.
+  - Implemented `src/features/competitors/`:
+    - `schemas.ts`: validation schema enforcing valid HTTP/HTTPS URLs and client-side blocking of internal/private hosts.
+    - `api.ts`: Supabase queries for competitors list, fetch by ID, create, update, and delete.
+    - `hooks.ts`: React Query hooks (`useCompetitors`, `useCompetitor`, `useCreateCompetitor`, `useUpdateCompetitor`, `useDeleteCompetitor`, `useScanCompetitor`).
+    - `components/add-competitor-dialog.tsx`: dialog with client-side URL validation.
+    - `components/delete-competitor-dialog.tsx`: confirmation modal.
+    - `components/competitor-card.tsx`: card with competitor name, clean domain link, last scanned date, and Scan button with multi-step progress indicators ("Fetching page...", "Analyzing...").
+    - `components/competitor-detail-view.tsx`: tabbed intelligence view showing market positioning statement, operational strengths vs weaknesses, pricing models, recent signals, and a sales battlecard tab with win themes, landmines to defuse, and a copyable executive sales talk track. Friendly error banner for blocked URLs or fetch failures (never a blank screen).
+  - Implemented `/app/competitors` route page supporting responsive grid layout, debounced search, sample data loader, and detail view via `?competitorId=...`.
+  - Created unit tests in `tests/unit/safe-url.test.ts` (5 tests) and Deno tests in `supabase/functions/_shared/tests/safe_url_test.ts` verifying blocked cases (`http://localhost`, `http://127.0.0.1`, `http://169.254.169.254`, `http://10.0.0.1`, redirect to private IP, non-HTTP scheme, huge response handling).
+  - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (47/47 passing), `npm run build` (built in 7.18s).
+
 ## In progress
-- Ready to proceed with **Prompt 11: Competitors module**.
+- Ready to proceed with **Prompt 12: Revenue and Command Center**.
 
 ## Next
-1. **Prompt 11: Competitors module**
-   - Build `/app/competitors` radar, battlecards, and `scan-competitor` Edge Function with SSRF controls.
-2. **Prompt 12: Revenue and Command Center**
+1. **Prompt 12: Revenue and Command Center**
    - Build `/app/revenue` forecast models, kanban board, and `explain-forecast` Edge Function.
    - Wire `/app` Command Center with live aggregates.
-3. **Prompt 13: Agents and AI CEO**
+2. **Prompt 13: Agents and AI CEO**
    - Build `/app/agents` roster and `/app/ceo` strategic planner with `ceo-command` Edge Function.
-4. **Prompt 14: Insights and Settings**
+3. **Prompt 14: Insights and Settings**
    - Build `/app/insights` daily brief (`daily-insights` Edge Function) and `/app/settings` with `delete-account`.
-5. **Prompt 15: Polish, accessibility and performance**
+4. **Prompt 15: Polish, accessibility and performance**
    - Full WCAG 2.2 AA audit, code-splitting, responsive polish, and motion QA.
-6. **Prompt 16: Tests and CI**
+5. **Prompt 16: Tests and CI**
    - Implement Vitest unit/component tests and Playwright E2E flows; verify CI pipeline.
-7. **Prompt 17: Deployment prep, final cleanup and QA**
+6. **Prompt 17: Deployment prep, final cleanup and QA**
    - Delete `legacy/`, run clean string checks, audit security checklist, and report final metrics.
 
 ## Decisions

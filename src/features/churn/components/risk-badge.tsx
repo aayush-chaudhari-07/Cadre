@@ -80,3 +80,4 @@ export function RiskBadge({ level, className, showIcon = true }: RiskBadgeProps)
     </Badge>
   );
 }
+
