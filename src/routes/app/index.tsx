@@ -18,16 +18,12 @@ import { useWorkspace } from '@/features/workspace';
 import { useDeals, calculateRevenueMetrics, ForecastAreaChart, PipelineBarChart } from '@/features/revenue';
 import { useLeads } from '@/features/leads';
 import { useAccounts, calculateMrrAtRisk, RiskBadge } from '@/features/churn';
+import { useGenerateInsights } from '@/features/insights';
 import { supabase } from '@/lib/supabase';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from '@/components/ui/tooltip';
 import { CountUp } from '@/components/motion/count-up';
 import { formatCurrency, formatRelativeDate } from '@/lib/format';
 import { toast } from 'sonner';
@@ -41,6 +37,7 @@ function CommandCenterPage() {
   const { workspace, seedDemoData } = useWorkspace();
   const orgId = workspace?.id;
   const navigate = useNavigate();
+  const generateInsightsMutation = useGenerateInsights();
 
   const [isSeeding, setIsSeeding] = useState(false);
 
@@ -108,6 +105,17 @@ function CommandCenterPage() {
     }
   };
 
+  const handleRunBrief = async () => {
+    toast.loading("Running today's executive brief...", { id: 'cmd-brief' });
+    try {
+      await generateInsightsMutation.mutateAsync({ forceRefresh: false });
+      toast.success("Executive brief ready", { id: 'cmd-brief' });
+      navigate({ to: '/app/insights' });
+    } catch (err) {
+      toast.error(`Failed to run brief: ${(err as Error).message}`, { id: 'cmd-brief' });
+    }
+  };
+
   const isInitialLoading = dealsLoading && leadsLoading && accountsLoading;
 
   return (
@@ -130,23 +138,19 @@ function CommandCenterPage() {
 
         {/* Header Actions */}
         <div className="flex items-center gap-2.5">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div>
-                <Button
-                  variant="secondary"
-                  disabled={true}
-                  className="gap-2 text-xs opacity-70 cursor-not-allowed border-[var(--gold)]/30 text-[var(--gold)]"
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Run Today&apos;s Brief</span>
-                </Button>
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>Automated Daily Insights executive synthesis arrives in Prompt 14</span>
-            </TooltipContent>
-          </Tooltip>
+          <Button
+            variant="secondary"
+            onClick={handleRunBrief}
+            disabled={generateInsightsMutation.isPending}
+            className="gap-2 text-xs border-[var(--gold)]/30 text-[var(--gold)] hover:bg-[var(--gold)]/10"
+          >
+            {generateInsightsMutation.isPending ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[var(--gold)]" />
+            ) : (
+              <Sparkles className="w-3.5 h-3.5" />
+            )}
+            <span>Run Today&apos;s Brief</span>
+          </Button>
 
           {isWorkspaceEmpty && (
             <Button

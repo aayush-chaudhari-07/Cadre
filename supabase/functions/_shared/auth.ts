@@ -65,3 +65,44 @@ export async function requireAuth(req: Request, orgId: string): Promise<AuthCont
 
   return { user, supabase };
 }
+
+/**
+ * Creates a user-scoped Supabase client and verifies the caller's JWT,
+ * without requiring a specific orgId (used for user-level actions like delete-account).
+ */
+export async function requireUserOnly(req: Request): Promise<AuthContext> {
+  const authHeader = req.headers.get('Authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    throw new HttpError('unauthorized', 'Missing or invalid Authorization header.', 401);
+  }
+
+  const deno = (globalThis as unknown as { Deno?: { env: { get(k: string): string | undefined } } }).Deno;
+  const supabaseUrl = (deno ? deno.env.get('SUPABASE_URL') : process.env.SUPABASE_URL) || '';
+  const supabaseAnonKey = (deno ? deno.env.get('SUPABASE_ANON_KEY') : process.env.SUPABASE_ANON_KEY) || '';
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new HttpError('internal_error', 'Supabase environment configuration missing.', 500);
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    global: {
+      headers: { Authorization: authHeader },
+    },
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    throw new HttpError('unauthorized', 'Session expired or invalid user authentication.', 401);
+  }
+
+  return { user, supabase };
+}
+

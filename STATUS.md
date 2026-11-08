@@ -1,6 +1,6 @@
 # Cadre Project Status
 
-Last updated: Prompt 13 (Agents and AI CEO)
+Last updated: Prompt 14 (Insights and Settings)
 
 ## Done
 - [x] Full architectural and codebase audit completed (`PROJECT_INFO.md`).
@@ -206,18 +206,38 @@ The legal pages in `src/routes/terms.tsx` and `src/routes/privacy.tsx` contain s
   - Implemented `/app/agents` and `/app/ceo` route pages.
   - Authored unit test suite `tests/unit/ceo.test.ts` (9 tests) covering agent normalization, fallback behavior, plan schema parsing, and autonomy validation.
   - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (63/63 passing), `npm run build` (built in 18.82s).
+- [x] **Prompt 14: Insights and Settings:**
+  - Implemented `supabase/functions/daily-insights/index.ts` with CORS, JWT auth, daily per-workspace caching in `public.insights` (`for_date = current_date`), quota validation on cache miss or force refresh, gathering aggregated numerical telemetry across leads, open pipeline, at-risk churn accounts, meetings, and competitor signals (strictly non-raw transcripts per PRD 5.10), Gemini 2.5 Flash reasoning with `DAILY_INSIGHTS_PROMPT`, atomic upsert into `public.insights`, and audit log in `agent_runs` for the CEO agent.
+  - Implemented `supabase/functions/delete-account/index.ts` with CORS, JWT caller verification (`requireUserOnly`), validation of literal "DELETE" confirmation string, administrative deletion through `adminClient.auth.admin.deleteUser(user.id)` using the securely isolated server-side `SUPABASE_SERVICE_ROLE_KEY` secret (documented single architectural exception in `docs/SECURITY.md`), automatically cascading foreign key deletion across owned organizations and workspaces.
+  - Connected the Command Center (`/app`) "Run Today's Brief" header action button to trigger `useGenerateInsights()` and smoothly navigate to `/app/insights`.
+  - Implemented `src/features/insights/`:
+    - `schemas.ts`: `dailyInsightsSchema`, `dailyInsightsRequestSchema`, and intelligent internal route resolver `getRelatedModuleForAction` mapping recommended actions to their matching modules (`/app/leads`, `/app/meetings`, `/app/churn`, `/app/competitors`, `/app/revenue`, `/app/agents`, `/app/ceo`).
+    - `api.ts`, `hooks.ts`: `fetchTodayInsight`, `fetchPastInsights`, `useTodayInsight`, `usePastInsights`, and `useGenerateInsights`.
+    - `components/daily-brief-view.tsx`: executive briefing dashboard featuring multi-tone Aurora gradient headline, commercial highlights card, churn hazards card, tactical expansion opportunities card, and prioritized actions with one-click "Open related page" link pills.
+    - `components/past-briefs-list.tsx`: historical archive list allowing users to browse and inspect any past daily brief.
+  - Implemented `/app/insights` route page with dynamic date selection, unanalyzed state prompt, and mobile archive toggle.
+  - Implemented `src/features/settings/`:
+    - `schemas.ts`: `profileFormSchema`, `workspaceFormSchema`, `passwordChangeSchema`, and `deleteAccountFormSchema`.
+    - `api.ts`: `updateProfile`, `updateWorkspaceName`, `exportWorkspaceData` (extracting and downloading unified JSON across all 10 tables), and `deleteAccountRequest`.
+    - `components/profile-tab.tsx`: display name and avatar URL form with live preview and profile refresh.
+    - `components/workspace-tab.tsx`: workspace name editing, subscription tier badge (Free, $0 USD / mo), and sample data purge modal.
+    - `components/agents-tab.tsx`: capability roster overview with direct navigation shortcut to `/app/agents`.
+    - `components/appearance-tab.tsx`: live interactive theme selector (Dark Obsidian & Aurora, Light Clean Paper, System) with visual color swatches.
+    - `components/data-tab.tsx`: real-time AI quota usage meter (`consume_ai_quota` tracking, progress bar, countdown to 24h reset), one-click JSON workspace backup exporter, and sample data seeding/purging controls.
+    - `components/account-tab.tsx`: secure password change form (min 8 chars, confirm matching) and account deletion modal with mandatory "DELETE" verification.
+  - Implemented `/app/settings` route page hosting all 6 tabs in accessible Radix tab panels with keyboard navigation.
+  - Authored unit test suites `tests/unit/insights.test.ts` (5 tests) and `tests/unit/settings.test.ts` (8 tests) — all passing.
+  - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (76/76 passing across 11 test suites), `npm run build` (built in 14.29s).
 
 ## In progress
-- Ready to proceed with **Prompt 14: Insights and Settings**.
+- Ready to proceed with **Prompt 15: Polish, accessibility and performance**.
 
 ## Next
-1. **Prompt 14: Insights and Settings**
-   - Build `/app/insights` daily brief (`daily-insights` Edge Function) and `/app/settings` with `delete-account`.
-2. **Prompt 15: Polish, accessibility and performance**
+1. **Prompt 15: Polish, accessibility and performance**
    - Full WCAG 2.2 AA audit, code-splitting, responsive polish, and motion QA.
-3. **Prompt 16: Tests and CI**
+2. **Prompt 16: Tests and CI**
    - Implement Vitest unit/component tests and Playwright E2E flows; verify CI pipeline.
-4. **Prompt 17: Deployment prep, final cleanup and QA**
+3. **Prompt 17: Deployment prep, final cleanup and QA**
    - Delete `legacy/`, run clean string checks, audit security checklist, and report final metrics.
 
 ## Decisions
