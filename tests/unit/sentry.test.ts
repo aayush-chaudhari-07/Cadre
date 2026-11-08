@@ -38,3 +38,4 @@ describe('Sentry Client & PII Scrubbing (sentry.ts)', () => {
     fetchSpy.mockRestore();
   });
 });
+

@@ -33,3 +33,4 @@ if (typeof window !== 'undefined') {
   // Mock scrollTo
   window.scrollTo = () => {};
 }
+

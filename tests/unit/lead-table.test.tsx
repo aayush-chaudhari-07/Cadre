@@ -138,3 +138,4 @@ describe('Component: Lead Table Filtering & Search', () => {
     expect(screen.getByText('James Vance')).toBeInTheDocument();
   });
 });
+

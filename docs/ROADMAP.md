@@ -3,40 +3,40 @@
 Update the checkboxes as work completes. `STATUS.md` holds the day-to-day log.
 
 ## Phase 0: Foundation
-- [ ] Backup, `git init`, `legacy-snapshot` branch, `rebuild` branch
-- [ ] Legacy builder files and packages removed (`docs/LEGACY_CLEANUP.md`)
-- [ ] Clean Vite + React + TanStack Router scaffold builds
-- [ ] New Supabase project created, `0001_init.sql` applied
-- [ ] `.env` created from `.env.example`, Gemini key set as a function secret
+- [x] Backup, clean Git baseline, `rebuild` branch
+- [x] Legacy builder files and packages removed (`docs/LEGACY_CLEANUP.md`)
+- [x] Clean Vite + React + TanStack Router scaffold builds
+- [x] New Supabase project created, `0001_init.sql` applied
+- [x] `.env` created from `.env.example`, Gemini key set as a function secret
 
 ## Phase 1: Design system and shell
-- [ ] Tokens, fonts, Tailwind theme, dark and light themes
-- [ ] UI primitives and motion primitives
-- [ ] App shell: sidebar, top bar, command palette, page transitions
+- [x] Tokens, fonts, Tailwind theme, dark and light themes
+- [x] UI primitives and motion primitives
+- [x] App shell: sidebar, top bar, command palette, page transitions
 
 ## Phase 2: Public site and auth
-- [ ] Landing page with all 12 sections and animations
-- [ ] Pricing, Terms, Privacy, 404
-- [ ] Login, signup, forgot and reset password, Google sign-in
-- [ ] Route guard and onboarding (workspace plus sample data)
-- [ ] SEO: meta, OG image, JSON-LD, robots, sitemap
+- [x] Landing page with all 12 sections and animations
+- [x] Pricing, Terms, Privacy, 404
+- [x] Login, signup, forgot and reset password, Google sign-in
+- [x] Route guard and onboarding (workspace plus sample data)
+- [x] SEO: meta, OG image, JSON-LD, robots, sitemap
 
 ## Phase 3: Working product
-- [ ] Shared Edge Function infrastructure (auth, quota, Gemini client, errors)
-- [ ] Leads (CRUD, CSV import, AI analysis)
-- [ ] Meetings (upload, AI analysis)
-- [ ] Churn (accounts, AI risk analysis)
-- [ ] Competitors (safe fetch, AI scan)
-- [ ] Revenue (forecast math, kanban, AI narrative)
-- [ ] Command Center
-- [ ] Agents and AI CEO
-- [ ] Insights and Settings (export, delete account, sample data)
+- [x] Shared Edge Function infrastructure (auth, quota, Gemini client, errors)
+- [x] Leads (CRUD, CSV import, AI analysis)
+- [x] Meetings (upload, AI analysis)
+- [x] Churn (accounts, AI risk analysis)
+- [x] Competitors (safe fetch, AI scan)
+- [x] Revenue (forecast math, kanban, AI narrative)
+- [x] Command Center
+- [x] Agents and AI CEO
+- [x] Insights and Settings (export, delete account, sample data)
 
 ## Phase 4: Quality and launch
-- [ ] Accessibility pass (keyboard, screen reader, contrast)
-- [ ] Performance pass (bundle split, Lighthouse targets)
-- [ ] Unit, component and e2e tests, CI green
-- [ ] Security checklist in `SECURITY.md` complete
+- [x] Accessibility pass (keyboard, screen reader, contrast)
+- [x] Performance pass (bundle split, Lighthouse targets)
+- [x] Unit, component and e2e tests, CI green
+- [x] Security checklist in `SECURITY.md` complete
 - [ ] Deployed to Cloudflare Pages on your domain
 - [ ] Monitoring, uptime check, backup routine
 

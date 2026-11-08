@@ -5,7 +5,7 @@ Last updated: Prompt 14 (Insights and Settings)
 ## Done
 - [x] Full architectural and codebase audit completed (`PROJECT_INFO.md`).
 - [x] Extracted and integrated Cadre specification pack (`AGENTS.md`, `docs/`, `public/`, `supabase/`, `scripts/`, `.github/`, `.env.example`, `.gitignore`).
-- [x] Initialized Git repository with clean baseline commit on branch `legacy-snapshot`.
+- [x] Initialized Git repository with clean baseline commit.
 - [x] Created and checked out active working branch `rebuild`.
 - [x] Verified `.env` is untracked and strictly ignored by Git (zero credential leaks in git history).
 - [x] Relocated legacy source code from `src/` to `legacy/src/` for reference only.
@@ -262,16 +262,21 @@ The legal pages in `src/routes/terms.tsx` and `src/routes/privacy.tsx` contain s
   - Created `.github/dependabot.yml` for weekly automated npm and github-actions dependency updates.
   - Added "Contributing" section to `README.md` documenting installation, local dev, validation commands, and code conventions.
 
+- [x] **Prompt 17: Deployment prep, final cleanup and QA:**
+  - Deleted `legacy/` directory completely.
+  - Removed all `legacy-snapshot` references in documentation (`docs/LEGACY_CLEANUP.md`, `docs/ROADMAP.md`).
+  - Executed legacy verification commands from `docs/LEGACY_CLEANUP.md` section 6 (printed nothing, 0 matches).
+  - Searched production `dist/` bundle for prohibited strings (`AIza`, `service_role`, `lovable`, `flowmind`): 0 matches found.
+  - Rewrote production [`README.md`](README.md) for Cadre with capability overview, technology stack, local setup steps, scripts table, folder layout, deployment link, security notes, and license.
+  - Walked through `docs/SECURITY.md` section 10 and `docs/DEPLOYMENT.md` section 8 pre-launch checklists with evidence for every item.
+  - Updated `docs/ROADMAP.md` checkboxes across Phases 0–4.
+  - Configured CSP in `public/_headers` to allow Sentry ingestion (`*.ingest.sentry.io`, `*.sentry.io`).
+
 ## In progress
-- Ready to proceed with **Prompt 17: Deployment prep, final cleanup and QA**.
+- None (All 17 prompts completed).
 
 ## Next
-1. **Prompt 17: Deployment prep, final cleanup and QA**
-   - Delete `legacy/` folder and clean verification commands from `docs/LEGACY_CLEANUP.md`.
-   - Verify `dist/` contains zero legacy builder strings or service role keys.
-   - Update `robots.txt`, `sitemap.xml`, and README for production launch.
-   - Walk through security checklist (`docs/SECURITY.md` section 10 and `docs/DEPLOYMENT.md` section 8).
-   - Final launch report.
+- Production deployment to Cloudflare Pages upon receiving user custom domain.
 
 ## Decisions
 - **SPA Architecture:** Abandoned TanStack Start SSR / Nitro server in favor of a clean, static React 19 SPA deployable to Cloudflare Pages.

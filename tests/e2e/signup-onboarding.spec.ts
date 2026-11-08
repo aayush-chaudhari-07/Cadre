@@ -197,3 +197,4 @@ test.describe('Sign Up & Onboarding Flow', () => {
     await expect(page.getByText('Starlight Robotics')).toBeVisible({ timeout: 10000 });
   });
 });
+
