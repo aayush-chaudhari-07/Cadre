@@ -52,7 +52,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.21.0",
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.50.1",
     "@tailwindcss/vite": "^4.0.9",
     "@tanstack/router-plugin": "^1.114.13",
