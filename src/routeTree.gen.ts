@@ -9,34 +9,72 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AppRouteImport } from './routes/_app'
-import { Route as AuthRouteImport } from './routes/auth'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as SplatRouteImport } from './routes/$'
+import { Route as AppRouteRouteImport } from './routes/app/route'
+import { Route as DesignRouteImport } from './routes/design'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SignupRouteImport } from './routes/signup'
-import { Route as AppIndexRouteImport } from './routes/_app.index'
-import { Route as AppAgentsRouteImport } from './routes/_app.agents'
-import { Route as AppCeoRouteImport } from './routes/_app.ceo'
-import { Route as AppChurnRouteImport } from './routes/_app.churn'
-import { Route as AppCompetitorsRouteImport } from './routes/_app.competitors'
-import { Route as AppInsightsRouteImport } from './routes/_app.insights'
-import { Route as AppLeadsRouteImport } from './routes/_app.leads'
-import { Route as AppMeetingsRouteImport } from './routes/_app.meetings'
-import { Route as AppRevenueRouteImport } from './routes/_app.revenue'
-import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as AppIndexRouteImport } from './routes/app/index'
+import { Route as AppAgentsRouteImport } from './routes/app/agents'
+import { Route as AppCeoRouteImport } from './routes/app/ceo'
+import { Route as AppChurnRouteImport } from './routes/app/churn'
+import { Route as AppCompetitorsRouteImport } from './routes/app/competitors'
+import { Route as AppInsightsRouteImport } from './routes/app/insights'
+import { Route as AppLeadsRouteImport } from './routes/app/leads'
+import { Route as AppMeetingsRouteImport } from './routes/app/meetings'
+import { Route as AppRevenueRouteImport } from './routes/app/revenue'
+import { Route as AppSettingsRouteImport } from './routes/app/settings'
 
-const AppRoute = AppRouteImport.update({
-  id: '/_app',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRouteRoute = AppRouteRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DesignRoute = DesignRouteImport.update({
+  id: '/design',
+  path: '/design',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -49,181 +87,251 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppAgentsRoute = AppAgentsRouteImport.update({
   id: '/agents',
   path: '/agents',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppCeoRoute = AppCeoRouteImport.update({
   id: '/ceo',
   path: '/ceo',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppChurnRoute = AppChurnRouteImport.update({
   id: '/churn',
   path: '/churn',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppCompetitorsRoute = AppCompetitorsRouteImport.update({
   id: '/competitors',
   path: '/competitors',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppInsightsRoute = AppInsightsRouteImport.update({
   id: '/insights',
   path: '/insights',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppLeadsRoute = AppLeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppMeetingsRoute = AppMeetingsRouteImport.update({
   id: '/meetings',
   path: '/meetings',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppRevenueRoute = AppRevenueRouteImport.update({
   id: '/revenue',
   path: '/revenue',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AppRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AppIndexRoute
-  '/auth': typeof AuthRoute
+  '/': typeof IndexRoute
+  '/app': typeof AppRouteRouteWithChildren
+  '/$': typeof SplatRoute
+  '/design': typeof DesignRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
+  '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
-  '/agents': typeof AppAgentsRoute
-  '/ceo': typeof AppCeoRoute
-  '/churn': typeof AppChurnRoute
-  '/competitors': typeof AppCompetitorsRoute
-  '/insights': typeof AppInsightsRoute
-  '/leads': typeof AppLeadsRoute
-  '/meetings': typeof AppMeetingsRoute
-  '/revenue': typeof AppRevenueRoute
-  '/settings': typeof AppSettingsRoute
+  '/terms': typeof TermsRoute
+  '/app/agents': typeof AppAgentsRoute
+  '/app/ceo': typeof AppCeoRoute
+  '/app/churn': typeof AppChurnRoute
+  '/app/competitors': typeof AppCompetitorsRoute
+  '/app/insights': typeof AppInsightsRoute
+  '/app/leads': typeof AppLeadsRoute
+  '/app/meetings': typeof AppMeetingsRoute
+  '/app/revenue': typeof AppRevenueRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
-  '/auth': typeof AuthRoute
+  '/': typeof IndexRoute
+  '/$': typeof SplatRoute
+  '/design': typeof DesignRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
+  '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
-  '/agents': typeof AppAgentsRoute
-  '/ceo': typeof AppCeoRoute
-  '/churn': typeof AppChurnRoute
-  '/competitors': typeof AppCompetitorsRoute
-  '/insights': typeof AppInsightsRoute
-  '/leads': typeof AppLeadsRoute
-  '/meetings': typeof AppMeetingsRoute
-  '/revenue': typeof AppRevenueRoute
-  '/settings': typeof AppSettingsRoute
-  '/': typeof AppIndexRoute
+  '/terms': typeof TermsRoute
+  '/app/agents': typeof AppAgentsRoute
+  '/app/ceo': typeof AppCeoRoute
+  '/app/churn': typeof AppChurnRoute
+  '/app/competitors': typeof AppCompetitorsRoute
+  '/app/insights': typeof AppInsightsRoute
+  '/app/leads': typeof AppLeadsRoute
+  '/app/meetings': typeof AppMeetingsRoute
+  '/app/revenue': typeof AppRevenueRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_app': typeof AppRouteWithChildren
-  '/auth': typeof AuthRoute
+  '/': typeof IndexRoute
+  '/app': typeof AppRouteRouteWithChildren
+  '/$': typeof SplatRoute
+  '/design': typeof DesignRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
+  '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
-  '/_app/agents': typeof AppAgentsRoute
-  '/_app/ceo': typeof AppCeoRoute
-  '/_app/churn': typeof AppChurnRoute
-  '/_app/competitors': typeof AppCompetitorsRoute
-  '/_app/insights': typeof AppInsightsRoute
-  '/_app/leads': typeof AppLeadsRoute
-  '/_app/meetings': typeof AppMeetingsRoute
-  '/_app/revenue': typeof AppRevenueRoute
-  '/_app/settings': typeof AppSettingsRoute
-  '/_app/': typeof AppIndexRoute
+  '/terms': typeof TermsRoute
+  '/app/agents': typeof AppAgentsRoute
+  '/app/ceo': typeof AppCeoRoute
+  '/app/churn': typeof AppChurnRoute
+  '/app/competitors': typeof AppCompetitorsRoute
+  '/app/insights': typeof AppInsightsRoute
+  '/app/leads': typeof AppLeadsRoute
+  '/app/meetings': typeof AppMeetingsRoute
+  '/app/revenue': typeof AppRevenueRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/auth'
+    | '/app'
+    | '/$'
+    | '/design'
     | '/forgot-password'
+    | '/login'
+    | '/onboarding'
+    | '/pricing'
+    | '/privacy'
     | '/reset-password'
     | '/signup'
-    | '/agents'
-    | '/ceo'
-    | '/churn'
-    | '/competitors'
-    | '/insights'
-    | '/leads'
-    | '/meetings'
-    | '/revenue'
-    | '/settings'
+    | '/terms'
+    | '/app/agents'
+    | '/app/ceo'
+    | '/app/churn'
+    | '/app/competitors'
+    | '/app/insights'
+    | '/app/leads'
+    | '/app/meetings'
+    | '/app/revenue'
+    | '/app/settings'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/auth'
+    | '/'
+    | '/$'
+    | '/design'
     | '/forgot-password'
+    | '/login'
+    | '/onboarding'
+    | '/pricing'
+    | '/privacy'
     | '/reset-password'
     | '/signup'
-    | '/agents'
-    | '/ceo'
-    | '/churn'
-    | '/competitors'
-    | '/insights'
-    | '/leads'
-    | '/meetings'
-    | '/revenue'
-    | '/settings'
-    | '/'
+    | '/terms'
+    | '/app/agents'
+    | '/app/ceo'
+    | '/app/churn'
+    | '/app/competitors'
+    | '/app/insights'
+    | '/app/leads'
+    | '/app/meetings'
+    | '/app/revenue'
+    | '/app/settings'
+    | '/app'
   id:
     | '__root__'
-    | '/_app'
-    | '/auth'
+    | '/'
+    | '/app'
+    | '/$'
+    | '/design'
     | '/forgot-password'
+    | '/login'
+    | '/onboarding'
+    | '/pricing'
+    | '/privacy'
     | '/reset-password'
     | '/signup'
-    | '/_app/agents'
-    | '/_app/ceo'
-    | '/_app/churn'
-    | '/_app/competitors'
-    | '/_app/insights'
-    | '/_app/leads'
-    | '/_app/meetings'
-    | '/_app/revenue'
-    | '/_app/settings'
-    | '/_app/'
+    | '/terms'
+    | '/app/agents'
+    | '/app/ceo'
+    | '/app/churn'
+    | '/app/competitors'
+    | '/app/insights'
+    | '/app/leads'
+    | '/app/meetings'
+    | '/app/revenue'
+    | '/app/settings'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AppRoute: typeof AppRouteWithChildren
-  AuthRoute: typeof AuthRoute
+  IndexRoute: typeof IndexRoute
+  AppRouteRoute: typeof AppRouteRouteWithChildren
+  SplatRoute: typeof SplatRoute
+  DesignRoute: typeof DesignRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  OnboardingRoute: typeof OnboardingRoute
+  PricingRoute: typeof PricingRoute
+  PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
+  TermsRoute: typeof TermsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_app': {
-      id: '/_app'
-      path: ''
+    '/': {
+      id: '/'
+      path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof AppRouteImport
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/design': {
+      id: '/design'
+      path: '/design'
+      fullPath: '/design'
+      preLoaderRoute: typeof DesignRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forgot-password': {
@@ -231,6 +339,34 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -247,80 +383,87 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_app/': {
-      id: '/_app/'
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
       path: '/'
-      fullPath: '/'
+      fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppRouteRoute
     }
-    '/_app/agents': {
-      id: '/_app/agents'
+    '/app/agents': {
+      id: '/app/agents'
       path: '/agents'
-      fullPath: '/agents'
+      fullPath: '/app/agents'
       preLoaderRoute: typeof AppAgentsRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppRouteRoute
     }
-    '/_app/ceo': {
-      id: '/_app/ceo'
+    '/app/ceo': {
+      id: '/app/ceo'
       path: '/ceo'
-      fullPath: '/ceo'
+      fullPath: '/app/ceo'
       preLoaderRoute: typeof AppCeoRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppRouteRoute
     }
-    '/_app/churn': {
-      id: '/_app/churn'
+    '/app/churn': {
+      id: '/app/churn'
       path: '/churn'
-      fullPath: '/churn'
+      fullPath: '/app/churn'
       preLoaderRoute: typeof AppChurnRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppRouteRoute
     }
-    '/_app/competitors': {
-      id: '/_app/competitors'
+    '/app/competitors': {
+      id: '/app/competitors'
       path: '/competitors'
-      fullPath: '/competitors'
+      fullPath: '/app/competitors'
       preLoaderRoute: typeof AppCompetitorsRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppRouteRoute
     }
-    '/_app/insights': {
-      id: '/_app/insights'
+    '/app/insights': {
+      id: '/app/insights'
       path: '/insights'
-      fullPath: '/insights'
+      fullPath: '/app/insights'
       preLoaderRoute: typeof AppInsightsRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppRouteRoute
     }
-    '/_app/leads': {
-      id: '/_app/leads'
+    '/app/leads': {
+      id: '/app/leads'
       path: '/leads'
-      fullPath: '/leads'
+      fullPath: '/app/leads'
       preLoaderRoute: typeof AppLeadsRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppRouteRoute
     }
-    '/_app/meetings': {
-      id: '/_app/meetings'
+    '/app/meetings': {
+      id: '/app/meetings'
       path: '/meetings'
-      fullPath: '/meetings'
+      fullPath: '/app/meetings'
       preLoaderRoute: typeof AppMeetingsRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppRouteRoute
     }
-    '/_app/revenue': {
-      id: '/_app/revenue'
+    '/app/revenue': {
+      id: '/app/revenue'
       path: '/revenue'
-      fullPath: '/revenue'
+      fullPath: '/app/revenue'
       preLoaderRoute: typeof AppRevenueRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppRouteRoute
     }
-    '/_app/settings': {
-      id: '/_app/settings'
+    '/app/settings': {
+      id: '/app/settings'
       path: '/settings'
-      fullPath: '/settings'
+      fullPath: '/app/settings'
       preLoaderRoute: typeof AppSettingsRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppRouteRoute
     }
   }
 }
 
-interface AppRouteChildren {
+interface AppRouteRouteChildren {
   AppAgentsRoute: typeof AppAgentsRoute
   AppCeoRoute: typeof AppCeoRoute
   AppChurnRoute: typeof AppChurnRoute
@@ -333,7 +476,7 @@ interface AppRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
 }
 
-const AppRouteChildren: AppRouteChildren = {
+const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppAgentsRoute: AppAgentsRoute,
   AppCeoRoute: AppCeoRoute,
   AppChurnRoute: AppChurnRoute,
@@ -346,25 +489,24 @@ const AppRouteChildren: AppRouteChildren = {
   AppIndexRoute: AppIndexRoute,
 }
 
-const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
+  AppRouteRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
-  AppRoute: AppRouteWithChildren,
-  AuthRoute: AuthRoute,
+  IndexRoute: IndexRoute,
+  AppRouteRoute: AppRouteRouteWithChildren,
+  SplatRoute: SplatRoute,
+  DesignRoute: DesignRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  OnboardingRoute: OnboardingRoute,
+  PricingRoute: PricingRoute,
+  PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
+  TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

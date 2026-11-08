@@ -1,0 +1,78 @@
+:root,
+html[data-theme="dark"] {
+  --bg: #05060A;
+  --surface: #0B0D14;
+  --surface-2: #12151F;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  --text: #F4F6FA;
+  --text-2: #A7B0C3;
+  --text-3: #6B7489;
+
+  --primary: #2DE2A6;
+  --primary-ink: #04110C;
+  --secondary: #22D3EE;
+  --gold: #F5B94A;
+
+  --info: #7AA2FF;
+  --warning: #FFB020;
+  --danger: #FF5C7A;
+  --success: #2DE2A6;
+
+  --shadow-glow: 0 0 0 1px rgba(45, 226, 166, 0.25), 0 8px 40px -8px rgba(45, 226, 166, 0.35);
+  --shadow-gold: 0 0 0 1px rgba(245, 185, 74, 0.25), 0 8px 40px -8px rgba(245, 185, 74, 0.35);
+  --glass-bg: rgba(11, 13, 20, 0.6);
+  --glass-blur: blur(16px) saturate(140%);
+}
+
+html[data-theme="light"] {
+  --bg: #F6F7FB;
+  --surface: #FFFFFF;
+  --surface-2: #EEF1F7;
+  --border: rgba(11, 13, 20, 0.10);
+  --border-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  --text: #0B0D14;
+  --text-2: #4A5368;
+  --text-3: #6B7489;
+
+  --primary: #0FB985;
+  --primary-ink: #FFFFFF;
+  --secondary: #0891B2;
+  --gold: #B7791F;
+
+  --info: #3B6FE0;
+  --warning: #B45309;
+  --danger: #D92D4F;
+  --success: #0FB985;
+
+  --shadow-glow: 0 0 0 1px rgba(15, 185, 133, 0.25), 0 8px 30px -8px rgba(15, 185, 133, 0.25);
+  --shadow-gold: 0 0 0 1px rgba(183, 121, 31, 0.25), 0 8px 30px -8px rgba(183, 121, 31, 0.25);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-blur: blur(16px) saturate(140%);
+}
+
+:root {
+  /* Gradients */
+  --grad-aurora: linear-gradient(135deg, #2DE2A6 0%, #22D3EE 100%);
+  --grad-gold: linear-gradient(135deg, #F5B94A 0%, #FFDD9A 100%);
+  --grad-hero: radial-gradient(circle at 18% 18%, rgba(45, 226, 166, 0.18), transparent 45%),
+               radial-gradient(circle at 82% 14%, rgba(34, 211, 238, 0.14), transparent 45%),
+               radial-gradient(circle at 50% 90%, rgba(245, 185, 74, 0.06), transparent 50%);
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  /* Motion tokens */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --duration-micro: 150ms;
+  --duration-ui: 300ms;
+  --duration-reveal: 700ms;
+  --duration-long: 1200ms;
+}
