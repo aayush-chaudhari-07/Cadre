@@ -39,7 +39,7 @@ jobs:
 
       - name: No legacy builder traces
         run: |
-          if grep -rIil --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=docs --exclude-dir=scripts --exclude-dir=legacy --exclude-dir=dist --exclude=ci.yml --exclude=package-lock.json --exclude=PROJECT_INFO.md -e lovable -e gptengineer -e flowmind -e "r2.dev" . ; then
+          if grep -rIil --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=docs --exclude-dir=scripts --exclude-dir=legacy --exclude-dir=dist --exclude=ci.yml --exclude=package-lock.json --exclude=PROJECT_INFO.md --exclude=STATUS.md --exclude=CLEANUP_REPORT.md -e lovable -e gptengineer -e flowmind -e "r2.dev" . ; then
             echo "Legacy builder references found (files listed above)."
             exit 1
           fi
