@@ -114,6 +114,7 @@ export type ForecastNote = z.infer<typeof forecastNoteSchema>;
 export const analyzeLeadRequestSchema = z.object({
   orgId: z.string().uuid(),
   leadId: z.string().uuid().optional(),
+  channel: z.enum(['email', 'chat', 'call', 'note']).optional().default('note'),
   leadText: z.string().min(1, 'Lead text is required.').max(20000, 'Lead text must not exceed 20,000 characters.'),
   contactName: z.string().max(100).optional(),
   company: z.string().max(100).optional(),
@@ -168,3 +169,4 @@ export const dailyInsightsRequestSchema = z.object({
   forceRefresh: z.boolean().optional().default(false),
 });
 export type DailyInsightsRequest = z.infer<typeof dailyInsightsRequestSchema>;
+

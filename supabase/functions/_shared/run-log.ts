@@ -36,3 +36,4 @@ export async function logAgentRun(
     console.warn('[run-log] Exception while recording agent_run:', (err as Error).message);
   }
 }
+

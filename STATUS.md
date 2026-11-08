@@ -1,6 +1,6 @@
 # Cadre Project Status
 
-Last updated: Prompt 7 (Edge Function infrastructure and Gemini client)
+Last updated: Prompt 8 (Leads module)
 
 ## Done
 - [x] Full architectural and codebase audit completed (`PROJECT_INFO.md`).

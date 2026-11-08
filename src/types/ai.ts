@@ -17,6 +17,7 @@ export interface LeadAnalysis {
 export interface AnalyzeLeadRequest {
   orgId: string;
   leadId?: string;
+  channel?: 'email' | 'chat' | 'call' | 'note';
   leadText: string;
   contactName?: string;
   company?: string;
@@ -143,3 +144,4 @@ export interface DailyInsightsRequest {
   orgId: string;
   forceRefresh?: boolean;
 }
+

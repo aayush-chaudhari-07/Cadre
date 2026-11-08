@@ -47,3 +47,4 @@ export function error(
   };
   return json(body, status, req);
 }
+

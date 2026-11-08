@@ -16,6 +16,10 @@ export type CeoPlanStatus = 'draft' | 'approved' | 'done';
 export type OrgRole = 'owner' | 'admin' | 'member';
 export type OrgPlan = 'free' | 'pro' | 'scale';
 
+export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row'];
+export type TablesInsert<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert'];
+export type TablesUpdate<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update'];
+
 export interface Database {
   public: {
     Tables: {

@@ -102,3 +102,4 @@ Deno.test('extractVisibleText: strips markup, styles, scripts and trims to limit
   assertEquals(text.includes('Apex Systems & Solutions'), true);
   assertEquals(text.includes('Enterprise revenue acceleration platform'), true);
 });
+
