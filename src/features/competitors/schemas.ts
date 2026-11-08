@@ -35,3 +35,4 @@ export type CompetitorFormData = z.infer<typeof competitorFormSchema>;
 export interface CompetitorFilters {
   search?: string;
 }
+

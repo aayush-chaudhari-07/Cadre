@@ -92,3 +92,4 @@ export async function deleteCompetitor(
     throw new Error(error.message);
   }
 }
+

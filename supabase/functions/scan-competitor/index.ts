@@ -129,3 +129,4 @@ ${pageContent.text}
     return error('internal_error', 'An unexpected error occurred while scanning the competitor.', 500, req);
   }
 }
+

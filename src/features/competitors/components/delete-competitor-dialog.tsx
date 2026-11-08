@@ -91,3 +91,4 @@ export function DeleteCompetitorDialog({
     </Dialog>
   );
 }
+

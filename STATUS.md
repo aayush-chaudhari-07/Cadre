@@ -1,6 +1,6 @@
 # Cadre Project Status
 
-Last updated: Prompt 11 (Competitors module)
+Last updated: Prompt 12 (Revenue module and Command Center)
 
 ## Done
 - [x] Full architectural and codebase audit completed (`PROJECT_INFO.md`).
@@ -160,23 +160,42 @@ The legal pages in `src/routes/terms.tsx` and `src/routes/privacy.tsx` contain s
   - Implemented `/app/competitors` route page supporting responsive grid layout, debounced search, sample data loader, and detail view via `?competitorId=...`.
   - Created unit tests in `tests/unit/safe-url.test.ts` (5 tests) and Deno tests in `supabase/functions/_shared/tests/safe_url_test.ts` verifying blocked cases (`http://localhost`, `http://127.0.0.1`, `http://169.254.169.254`, `http://10.0.0.1`, redirect to private IP, non-HTTP scheme, huge response handling).
   - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (47/47 passing), `npm run build` (built in 7.18s).
+- [x] **Prompt 12: Revenue module and Command Center:**
+  - Implemented `src/features/revenue/forecast.ts`: pure mathematical models with comprehensive formulas and JSDoc documentation for 3-scenario forecasts (Expected, Best Case with stage-adjusted upside multipliers, Worst Case with mature-deal discounting and early stage elimination), weighted pipeline by month, win rate calculation, average deal size, and average sales cycle in days.
+  - Authored unit test suite `tests/unit/forecast.test.ts` with 7 comprehensive tests covering scenario calculations, month grouping, cycle calculation, and edge cases (all 7 passing).
+  - Implemented `supabase/functions/explain-forecast/index.ts` with CORS, JWT auth, Finance agent enabled check, daily quota check, Gemini 2.5 Flash invocation using `FORECAST_EXPLAIN_PROMPT`, and audit log in `agent_runs` for the Finance agent.
+  - Implemented `src/features/revenue/`:
+    - `api.ts`, `hooks.ts`, `schemas.ts` for deals CRUD and forecast explanation.
+    - `components/deal-dialog.tsx`: Zod + React Hook Form dialog for adding and editing deals.
+    - `components/delete-deal-dialog.tsx`: confirm dialog for deleting deals.
+    - `components/deals-kanban.tsx`: responsive Kanban board across 6 stages (Prospecting, Qualified, Proposal, Negotiation, Won, Lost) with drag-and-drop support, accessible fallback dropdowns, and immediate optimistic updates on stage transitions.
+    - `components/forecast-area-chart.tsx`: animated AreaChart rendering Best, Expected, and Worst scenarios with Aurora gradients.
+    - `components/pipeline-bar-chart.tsx`: animated volume and deal-count bar chart by stage.
+    - `components/ai-forecast-panel.tsx`: AI Finance Director narrative and risk factor evaluation panel with one-click copy.
+  - Implemented `/app/revenue` route page featuring 5 top KPI summary cards (Open Pipeline, Expected Forecast, Best Case, Worst Case, Historical Win Rate), AI forecast panel, interactive forecast and pipeline charts, and full Kanban board.
+  - Rewrote `/app/index.tsx` Command Center dashboard into a live executive cockpit:
+    - 4 primary KPI cards with `CountUp` animations: Open Pipeline, Expected Forecast, Hot Leads count (score >= 70), and MRR at Risk.
+    - Forecast scenario area chart and pipeline distribution bar chart.
+    - Top leads table with score badges and one-click drawer preview.
+    - At-risk customer accounts list with risk badges and MRR at risk.
+    - Real-time agent activity feed sourced from `agent_runs` (newest first).
+    - Top action bar with "Run today's brief" button and tooltip.
+    - Sample data loader banner when workspace has no data.
+  - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (54/54 passing), `npm run build` (built in 27.46s).
 
 ## In progress
-- Ready to proceed with **Prompt 12: Revenue and Command Center**.
+- Ready to proceed with **Prompt 13: Agents and AI CEO**.
 
 ## Next
-1. **Prompt 12: Revenue and Command Center**
-   - Build `/app/revenue` forecast models, kanban board, and `explain-forecast` Edge Function.
-   - Wire `/app` Command Center with live aggregates.
-2. **Prompt 13: Agents and AI CEO**
+1. **Prompt 13: Agents and AI CEO**
    - Build `/app/agents` roster and `/app/ceo` strategic planner with `ceo-command` Edge Function.
-3. **Prompt 14: Insights and Settings**
+2. **Prompt 14: Insights and Settings**
    - Build `/app/insights` daily brief (`daily-insights` Edge Function) and `/app/settings` with `delete-account`.
-4. **Prompt 15: Polish, accessibility and performance**
+3. **Prompt 15: Polish, accessibility and performance**
    - Full WCAG 2.2 AA audit, code-splitting, responsive polish, and motion QA.
-5. **Prompt 16: Tests and CI**
+4. **Prompt 16: Tests and CI**
    - Implement Vitest unit/component tests and Playwright E2E flows; verify CI pipeline.
-6. **Prompt 17: Deployment prep, final cleanup and QA**
+5. **Prompt 17: Deployment prep, final cleanup and QA**
    - Delete `legacy/`, run clean string checks, audit security checklist, and report final metrics.
 
 ## Decisions
