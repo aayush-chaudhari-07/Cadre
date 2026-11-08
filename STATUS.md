@@ -1,6 +1,6 @@
 # Cadre Project Status
 
-Last updated: Prompt 6 (Landing page, pricing and legal pages)
+Last updated: Prompt 7 (Edge Function infrastructure and Gemini client)
 
 ## Done
 - [x] Full architectural and codebase audit completed (`PROJECT_INFO.md`).
@@ -81,33 +81,48 @@ The legal pages in `src/routes/terms.tsx` and `src/routes/privacy.tsx` contain s
 - `[YOUR EMAIL]` (e.g. "legal@cadre.ai" or "privacy@cadre.ai")
 - `[YOUR ADDRESS]` (e.g. your registered corporate address)
 
+- [x] **Prompt 7: Edge Function infrastructure and Gemini client:**
+  - Implemented `supabase/functions/deno.json` with Deno import mappings (`@google/genai`, `@supabase/supabase-js`, `zod`, `@std/assert`).
+  - Created `supabase/functions/_shared/cors.ts`: allowlist from `ALLOWED_ORIGINS` (defaults to `http://localhost:5173`), handles preflight `OPTIONS` (204), never reflects `*`.
+  - Created `supabase/functions/_shared/http.ts`: type-safe `json()` and `error()` helpers returning `{ error: { code, message } }` with codes `unauthorized`, `forbidden`, `invalid_input`, `quota_exceeded`, `bad_model_output`, `upstream_unavailable`, `blocked_url`, `internal_error`.
+  - Created `supabase/functions/_shared/auth.ts`: creates user-scoped Supabase client from incoming `Authorization: Bearer <jwt>`, validates active session (`getUser()`), verifies caller organization membership via RLS on `memberships`.
+  - Created `supabase/functions/_shared/quota.ts`: calls `consume_ai_quota` RPC with `AI_DAILY_LIMIT_PER_USER` (default 40); on quota exceeded returns HTTP 429 `quota_exceeded`.
+  - Created `supabase/functions/_shared/gemini.ts`: wrapper around `@google/genai` using `GEMINI_API_KEY`. Implements `generateJson({ system, user, schema, temperature, timeoutMs })` trying `GEMINI_MODEL`, falling back to `GEMINI_FALLBACK_MODEL` on 429/503. Strict 30s timeout, retries once on invalid JSON, never logs prompt or user content.
+  - Created `supabase/functions/_shared/schemas.ts`: Zod request schemas enforcing `docs/SECURITY.md` input size limits (transcript: 60k chars, lead: 20k chars, command: 2k chars, URL: 2048 chars) and response schemas for all 7 agent modules (`LeadAnalysis`, `MeetingAnalysis`, `ChurnAnalysis`, `CompetitorScan`, `CeoPlan`, `DailyInsights`, `ForecastNote`).
+  - Created `supabase/functions/_shared/prompts.ts`: system prompts for all 7 modules enforcing role definition, strict untrusted data clauses, JSON-only output constraints, and numerical integrity rules (*"use ONLY numbers provided in inputs"*).
+  - Created `supabase/functions/_shared/run-log.ts`: audit helper `logAgentRun()` recording execution rows to `public.agent_runs` with non-blocking error handling.
+  - Created `supabase/functions/_shared/safe-url.ts`: SSRF defense with `isPrivateOrBlockedIp()` (blocking 127/8, 10/8, 172.16/12, 192.168/16, 169.254/16, ::1, unique local, multicast), `isSafeUrl()` (restricting scheme to http/https, ports to 80/443, local hostnames, and resolving DNS), and `fetchPublicPage()` (following max 3 redirects, 8s timeout, 500KB stream cap, HTML text extraction truncated to 12,000 chars).
+  - Created Deno tests:
+    - `supabase/functions/_shared/tests/gemini_test.ts`: tests markdown JSON code fence cleaning and 429/503 fallback error classification.
+    - `supabase/functions/_shared/tests/safe_url_test.ts`: tests private IP blocking, port restrictions, metadata IP denial, and HTML text sanitization.
+  - Implemented client layer `src/lib/ai.ts`: typed wrappers (`analyzeLead`, `analyzeMeeting`, `analyzeChurn`, `scanCompetitor`, `explainForecast`, `askCeo`, `generateInsights`) with user-friendly error translations and `useAiUsage` hook.
+  - Added unit test suites `tests/unit/safe-url.test.ts` (3 tests) and `tests/unit/ai-client.test.ts` (2 tests) — all 23 project tests passing in Vitest.
+  - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (23/23 passing), `npm run build` (built in 6.90s).
+
 ## In progress
-- Ready to proceed with **Prompt 7: Edge Function infrastructure and Gemini client**.
+- Ready to proceed with **Prompt 8: Leads module**.
 
 ## Next
-1. **Prompt 7: Edge Function infrastructure and Gemini client**
-   - Scaffold `supabase/functions/_shared/` (cors, http, auth, quota, gemini, schemas, prompts, safe-url).
-   - Setup client-side `src/lib/ai.ts` helpers and write Deno tests.
-2. **Prompt 8: Leads module**
+1. **Prompt 8: Leads module**
    - Build `/app/leads` table, CSV import, drawer, and `analyze-lead` Edge Function.
-3. **Prompt 9: Meetings module**
+2. **Prompt 9: Meetings module**
    - Build `/app/meetings` list, VTT/SRT transcript upload, and `analyze-meeting` Edge Function.
-4. **Prompt 10: Churn module**
+3. **Prompt 10: Churn module**
    - Build `/app/churn` account table, MRR-at-risk metrics, and `analyze-churn` Edge Function.
-5. **Prompt 11: Competitors module**
+4. **Prompt 11: Competitors module**
    - Build `/app/competitors` radar, battlecards, and `scan-competitor` Edge Function with SSRF controls.
-6. **Prompt 12: Revenue and Command Center**
+5. **Prompt 12: Revenue and Command Center**
    - Build `/app/revenue` forecast models, kanban board, and `explain-forecast` Edge Function.
    - Wire `/app` Command Center with live aggregates.
-7. **Prompt 13: Agents and AI CEO**
+6. **Prompt 13: Agents and AI CEO**
    - Build `/app/agents` roster and `/app/ceo` strategic planner with `ceo-command` Edge Function.
-8. **Prompt 14: Insights and Settings**
+7. **Prompt 14: Insights and Settings**
    - Build `/app/insights` daily brief (`daily-insights` Edge Function) and `/app/settings` with `delete-account`.
-9. **Prompt 15: Polish, accessibility and performance**
+8. **Prompt 15: Polish, accessibility and performance**
    - Full WCAG 2.2 AA audit, code-splitting, responsive polish, and motion QA.
-10. **Prompt 16: Tests and CI**
-    - Implement Vitest unit/component tests and Playwright E2E flows; verify CI pipeline.
-11. **Prompt 17: Deployment prep, final cleanup and QA**
+9. **Prompt 16: Tests and CI**
+   - Implement Vitest unit/component tests and Playwright E2E flows; verify CI pipeline.
+10. **Prompt 17: Deployment prep, final cleanup and QA**
     - Delete `legacy/`, run clean string checks, audit security checklist, and report final metrics.
 
 ## Decisions
@@ -118,17 +133,7 @@ The legal pages in `src/routes/terms.tsx` and `src/routes/privacy.tsx` contain s
 - **Design Language:** Obsidian & Aurora theme (near-black `#05060A`, mint `#2DE2A6`, cyan `#22D3EE`, gold `#F5B94A`) replacing previous Indigo light aesthetic.
 - **Currency:** Exclusively USD ($), formatted with `Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })`.
 - **Zero Synthetic Claims:** All landing metrics, tech logos, and product statements reflect verified architectural realities; sample product simulator explicitly labeled with "Sample Data" banner.
-
-## Blocked
-- None currently.
-
-## Decisions
-- **SPA Architecture:** Abandoned TanStack Start SSR / Nitro server in favor of a clean, static React 19 SPA deployable to Cloudflare Pages.
-- **AI Boundary:** Google Gemini API keys are isolated strictly within Supabase Edge Functions. Frontend only uses Supabase publishable key and user JWT.
-- **Data Layer:** Dropped Drizzle ORM in favor of standard PostgreSQL migrations (`supabase/migrations/0001_init.sql`) with mandatory Row Level Security (RLS) policies.
-- **Package Management:** Standardized on `npm` (`package-lock.json`), removing Bun and Yarn artifacts.
-- **Design Language:** Obsidian & Aurora theme (near-black `#05060A`, mint `#2DE2A6`, cyan `#22D3EE`, gold `#F5B94A`) replacing previous Indigo light aesthetic.
-- **Currency:** Exclusively USD ($), formatted with `Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })`.
+- **Edge Architecture:** Shared Edge Function infrastructure (`_shared/`) standardizes CORS, JWT verification, tenant isolation, daily AI quotas, Gemini model fallback, and SSRF defenses.
 
 ## Blocked
 - None currently.

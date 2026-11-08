@@ -48,7 +48,7 @@ function TermsPage() {
               Acceptance of Terms
             </h2>
             <p>
-              By accessing or using Cadre (&ldquo;the Service&rdquo;), operated by <span className="text-[var(--gold)] font-mono">[YOUR COMPANY NAME]</span> (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;), you agree to be bound by these Terms of Service. If you are entering into these terms on behalf of a company, organization, or other legal entity, you represent and warrant that you possess the authority to bind such entity. If you do not agree to these terms, you must not access or use the Service.
+              By accessing or using Cadre (&ldquo;the Service&rdquo;), operated by <span className="text-[var(--gold)] font-mono">Cadre TA</span> (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;), you agree to be bound by these Terms of Service. If you are entering into these terms on behalf of a company, organization, or other legal entity, you represent and warrant that you possess the authority to bind such entity. If you do not agree to these terms, you must not access or use the Service.
             </p>
           </section>
 
@@ -109,7 +109,7 @@ function TermsPage() {
               <strong className="text-[var(--text)]">Your Data:</strong> You retain complete ownership of all customer records, lead data, call transcripts, notes, and metrics you upload or ingest into Cadre. We claim zero ownership over your proprietary pipeline data.
             </p>
             <p>
-              <strong className="text-[var(--text)]">Our IP:</strong> The Cadre interface, agent workflows, algorithms, logos, designs, and software are the exclusive intellectual property of <span className="text-[var(--gold)] font-mono">[YOUR COMPANY NAME]</span> and its licensors.
+              <strong className="text-[var(--text)]">Our IP:</strong> The Cadre interface, agent workflows, algorithms, logos, designs, and software are the exclusive intellectual property of <span className="text-[var(--gold)] font-mono">Cadre TA</span> and its licensors.
             </p>
           </section>
 
@@ -129,7 +129,7 @@ function TermsPage() {
               Limitation of Liability
             </h2>
             <p>
-              To the maximum extent permitted by applicable law, in no event shall <span className="text-[var(--gold)] font-mono">[YOUR COMPANY NAME]</span>, its directors, employees, or partners be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, goodwill, or revenue resulting from your use of or inability to use the Service.
+              To the maximum extent permitted by applicable law, in no event shall <span className="text-[var(--gold)] font-mono">Cadre TA</span>, its directors, employees, or partners be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, goodwill, or revenue resulting from your use of or inability to use the Service.
             </p>
           </section>
 
@@ -142,9 +142,9 @@ function TermsPage() {
               Questions, concerns, or notices regarding these Terms of Service should be directed to:
             </p>
             <div className="mt-3 p-4 rounded-lg bg-[var(--surface-2)] border border-[var(--border)] font-mono text-xs text-[var(--text)] space-y-1">
-              <p><strong className="text-[var(--primary)]">Legal Entity:</strong> <span className="text-[var(--gold)]">[YOUR COMPANY NAME]</span></p>
-              <p><strong className="text-[var(--primary)]">Email:</strong> <span className="text-[var(--gold)]">[YOUR EMAIL]</span></p>
-              <p><strong className="text-[var(--primary)]">Address:</strong> <span className="text-[var(--gold)]">[YOUR ADDRESS]</span></p>
+              <p><strong className="text-[var(--primary)]">Legal Entity:</strong> <span className="text-[var(--gold)]">Cadre TA</span></p>
+              <p><strong className="text-[var(--primary)]">Email:</strong> <span className="text-[var(--gold)]">ayushchaudhari2603@gmail.com</span></p>
+              <p><strong className="text-[var(--primary)]">Address:</strong> <span className="text-[var(--gold)]">Nagpur, Maharashtra, India</span></p>
             </div>
           </section>
         </div>

@@ -48,7 +48,7 @@ function PrivacyPage() {
               Our Privacy Commitment
             </h2>
             <p>
-              At Cadre, operated by <span className="text-[var(--gold)] font-mono">[YOUR COMPANY NAME]</span> (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;), we believe enterprise privacy is not optional. This Privacy Policy details the exact types of data we collect, how it is processed by our autonomous AI agents, and how your proprietary sales pipeline remains strictly isolated under PostgreSQL Row-Level Security.
+              At Cadre, operated by <span className="text-[var(--gold)] font-mono">Cadre TA</span> (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;), we believe enterprise privacy is not optional. This Privacy Policy details the exact types of data we collect, how it is processed by our autonomous AI agents, and how your proprietary sales pipeline remains strictly isolated under PostgreSQL Row-Level Security.
             </p>
           </section>
 
@@ -144,9 +144,9 @@ function PrivacyPage() {
               If you have any questions, audit inquiries, or data privacy requests, please reach out to:
             </p>
             <div className="mt-3 p-4 rounded-lg bg-[var(--surface-2)] border border-[var(--border)] font-mono text-xs text-[var(--text)] space-y-1">
-              <p><strong className="text-[var(--primary)]">Entity:</strong> <span className="text-[var(--gold)]">[YOUR COMPANY NAME]</span></p>
-              <p><strong className="text-[var(--primary)]">Privacy Inquiries:</strong> <span className="text-[var(--gold)]">[YOUR EMAIL]</span></p>
-              <p><strong className="text-[var(--primary)]">Postal Address:</strong> <span className="text-[var(--gold)]">[YOUR ADDRESS]</span></p>
+              <p><strong className="text-[var(--primary)]">Entity:</strong> <span className="text-[var(--gold)]">Cadre TA</span></p>
+              <p><strong className="text-[var(--primary)]">Privacy Inquiries:</strong> <span className="text-[var(--gold)]">ayushchaudhari2603@gmail.com</span></p>
+              <p><strong className="text-[var(--primary)]">Postal Address:</strong> <span className="text-[var(--gold)]">Nagpur, Maharashtra, India</span></p>
             </div>
           </section>
         </div>
