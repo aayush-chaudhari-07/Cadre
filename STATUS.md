@@ -1,6 +1,6 @@
 # Cadre Project Status
 
-Last updated: Prompt 8 (Leads module)
+Last updated: Prompt 9 (Meetings module)
 
 ## Done
 - [x] Full architectural and codebase audit completed (`PROJECT_INFO.md`).
@@ -99,31 +99,59 @@ The legal pages in `src/routes/terms.tsx` and `src/routes/privacy.tsx` contain s
   - Added unit test suites `tests/unit/safe-url.test.ts` (3 tests) and `tests/unit/ai-client.test.ts` (2 tests) — all 23 project tests passing in Vitest.
   - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (23/23 passing), `npm run build` (built in 6.90s).
 
+- [x] **Prompt 8: Leads module:**
+  - Implemented `supabase/functions/analyze-lead/index.ts` with CORS, JWT authentication, Sales agent enabled check, daily quota validation, Gemini reasoning with `LEAD_ANALYSIS_PROMPT`, automatic lead metrics update (score, intent, summary, objections, next_action, probability, last_contact_at), interaction timeline logging in `lead_interactions`, and audit entry in `agent_runs`.
+  - Implemented `src/features/leads/`:
+    - `schemas.ts`: validation for lead creation/updates and CSV batch row mapping.
+    - `api.ts`: Supabase database queries for leads filtering, sorting, pagination, and batch import.
+    - `hooks.ts`: React Query hooks (`useLeads`, `useLead`, `useLeadInteractions`, `useCreateLead`, `useUpdateLead`, `useDeleteLead`, `useImportLeads`).
+    - `components/score-ring.tsx`: SVG circular score indicator styled with mint/cyan/gold thresholds.
+    - `components/add-edit-lead-dialog.tsx`: React Hook Form + Zod modal.
+    - `components/delete-lead-dialog.tsx`: confirmation modal.
+    - `components/csv-import-dialog.tsx`: Papa Parse CSV picker, column auto-mapping, row-level validation list, batching in sets of 100.
+    - `components/lead-drawer.tsx`: full lead drawer with timeline, copyable suggested replies and next actions, live analysis box with channel selector, character counter, and celebratory `Burst` animation on first qualification.
+  - Implemented `/app/leads` page with debounced search, status filter chips, sortable table headers, pagination, skeleton loading, empty state (with Add lead, Import CSV, and Load sample data), and error states.
+  - Created unit tests in `tests/unit/leads.test.ts` (10 tests) covering CSV parsing and table filtering/sorting logic.
+  - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (33/33 passing), `npm run build` (built in 7.08s).
+
+- [x] **Prompt 9: Meetings module:**
+  - Implemented `supabase/functions/analyze-meeting/index.ts` with CORS, JWT authentication, Operations agent enabled check, quota validation, Gemini reasoning with `MEETING_ANALYSIS_PROMPT`, persisting results on `meetings` table (summary, sentiment, action_items, objections, analysis), and writing an audit row in `agent_runs` for the Operations agent.
+  - Implemented `src/features/meetings/`:
+    - `parser.ts`: subtitle cleaner utility (`stripSubtitleTimestamps`) stripping WebVTT/SRT timestamps, cue numbering, and voice tags (`<v Speaker>`), and deduplicating live transcription repeats, plus `validateTranscriptLength` (60,000 char cap).
+    - `schemas.ts`: form validation schemas and filter types.
+    - `api.ts`: Supabase queries for meetings list, fetch by ID, create, update, and delete.
+    - `hooks.ts`: React Query hooks (`useMeetings`, `useMeeting`, `useCreateMeeting`, `useUpdateMeeting`, `useDeleteMeeting`, `useAnalyzeMeeting`).
+    - `components/sentiment-badge.tsx`: Positive, Neutral, Negative sentiment badge with icons.
+    - `components/deal-health-ring.tsx`: circular SVG deal health meter (0-100) with dynamic glow and color tokens.
+    - `components/action-items-list.tsx`: deliverables checklist with local completion persistence (`localStorage`) and "Copy all" clipboard button.
+    - `components/new-meeting-dialog.tsx`: modal with title, company, date, live character counter (60,000 max), drag-and-drop or file upload for `.vtt`, `.srt`, `.txt` stripping timestamps immediately, and instant AI analysis toggle.
+    - `components/delete-meeting-dialog.tsx`: confirmation modal.
+    - `components/meeting-detail-view.tsx`: full meeting intelligence view rendering persisted analysis with zero redundant AI calls, key discussion points, action items, objections, deal risks, recommended next steps, deal health ring, and expandable raw transcript.
+  - Implemented `/app/meetings` route page supporting list view with debounced search, sentiment filter chips, sample data loader, and detail view via `?meetingId=...`.
+  - Created unit tests in `tests/unit/meetings.test.ts` (6 tests) verifying VTT, SRT, formatting stripping, deduplication, and character length validation.
+  - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (39/39 passing), `npm run build` (built in 7.08s).
+
 ## In progress
-- Ready to proceed with **Prompt 8: Leads module**.
+- Ready to proceed with **Prompt 10: Churn module**.
 
 ## Next
-1. **Prompt 8: Leads module**
-   - Build `/app/leads` table, CSV import, drawer, and `analyze-lead` Edge Function.
-2. **Prompt 9: Meetings module**
-   - Build `/app/meetings` list, VTT/SRT transcript upload, and `analyze-meeting` Edge Function.
-3. **Prompt 10: Churn module**
+1. **Prompt 10: Churn module**
    - Build `/app/churn` account table, MRR-at-risk metrics, and `analyze-churn` Edge Function.
-4. **Prompt 11: Competitors module**
+2. **Prompt 11: Competitors module**
    - Build `/app/competitors` radar, battlecards, and `scan-competitor` Edge Function with SSRF controls.
-5. **Prompt 12: Revenue and Command Center**
+3. **Prompt 12: Revenue and Command Center**
    - Build `/app/revenue` forecast models, kanban board, and `explain-forecast` Edge Function.
    - Wire `/app` Command Center with live aggregates.
-6. **Prompt 13: Agents and AI CEO**
+4. **Prompt 13: Agents and AI CEO**
    - Build `/app/agents` roster and `/app/ceo` strategic planner with `ceo-command` Edge Function.
-7. **Prompt 14: Insights and Settings**
+5. **Prompt 14: Insights and Settings**
    - Build `/app/insights` daily brief (`daily-insights` Edge Function) and `/app/settings` with `delete-account`.
-8. **Prompt 15: Polish, accessibility and performance**
+6. **Prompt 15: Polish, accessibility and performance**
    - Full WCAG 2.2 AA audit, code-splitting, responsive polish, and motion QA.
-9. **Prompt 16: Tests and CI**
+7. **Prompt 16: Tests and CI**
    - Implement Vitest unit/component tests and Playwright E2E flows; verify CI pipeline.
-10. **Prompt 17: Deployment prep, final cleanup and QA**
-    - Delete `legacy/`, run clean string checks, audit security checklist, and report final metrics.
+8. **Prompt 17: Deployment prep, final cleanup and QA**
+   - Delete `legacy/`, run clean string checks, audit security checklist, and report final metrics.
 
 ## Decisions
 - **SPA Architecture:** Abandoned TanStack Start SSR / Nitro server in favor of a clean, static React 19 SPA deployable to Cloudflare Pages.
