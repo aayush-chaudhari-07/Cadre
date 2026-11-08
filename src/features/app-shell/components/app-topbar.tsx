@@ -165,3 +165,4 @@ export function AppTopbar({ onOpenMobileNav, onOpenCommandPalette }: AppTopbarPr
     </header>
   );
 }
+

@@ -1,0 +1,12 @@
+export { Nav } from './nav';
+export { Hero } from './hero';
+export { BuiltWith } from './built-with';
+export { ProblemStats } from './problem-stats';
+export { Bento } from './bento';
+export { AgentOrbit } from './agent-orbit';
+export { Demo } from './demo';
+export { HowItWorks } from './how-it-works';
+export { PricingSection } from './pricing-section';
+export { Faq } from './faq';
+export { FinalCta } from './final-cta';
+export { Footer } from './footer';

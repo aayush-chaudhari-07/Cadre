@@ -7,13 +7,16 @@ interface MagneticProps {
   children: React.ReactNode;
   className?: string;
   maxDistance?: number;
+  strength?: number;
 }
 
 export function Magnetic({
   children,
   className,
   maxDistance = 8,
+  strength,
 }: MagneticProps) {
+  const effectiveDistance = strength ?? maxDistance;
   const shouldReduce = useReducedMotion();
   const ref = React.useRef<HTMLDivElement>(null);
 
@@ -34,8 +37,8 @@ export function Magnetic({
     const deltaX = (clientX - centerX) / (width / 2);
     const deltaY = (clientY - centerY) / (height / 2);
 
-    x.set(deltaX * maxDistance);
-    y.set(deltaY * maxDistance);
+    x.set(deltaX * effectiveDistance);
+    y.set(deltaY * effectiveDistance);
   };
 
   const handleMouseLeave = () => {

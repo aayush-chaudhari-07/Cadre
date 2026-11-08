@@ -1,6 +1,6 @@
 # Cadre Project Status
 
-Last updated: Prompt 3 (Database, types and Supabase config)
+Last updated: Prompt 6 (Landing page, pricing and legal pages)
 
 ## Done
 - [x] Full architectural and codebase audit completed (`PROJECT_INFO.md`).
@@ -43,27 +43,6 @@ Last updated: Prompt 3 (Database, types and Supabase config)
   - Created `/app/index.tsx` Command Center placeholder displaying real user profile name, active workspace badge, sign-out button, and RPC demo data trigger controls.
   - Added unit test suites `tests/unit/redirect.test.ts` (6 tests) and `tests/unit/auth-schemas.test.ts` (12 tests) — all 18 passing in Vitest.
   - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (18/18 passing), `npm run build` (built in 4.10s).
-
-## How to generate types from your remote Supabase project
-Once you have created your Supabase project in the Supabase Dashboard:
-1. Log in with the Supabase CLI:
-   ```bash
-   npx supabase login
-   ```
-2. Link your local project to your remote Supabase project:
-   ```bash
-   npx supabase link --project-ref <your-project-ref>
-   ```
-3. Push the migration to your database:
-   ```bash
-   npx supabase db push
-   ```
-4. Regenerate TypeScript definitions from the live remote schema:
-   ```bash
-   npx supabase gen types typescript --project-id <your-project-ref> > src/types/database.ts
-   ```
-*(Note: If using local Docker development instead, run `npx supabase start` followed by `npm run types`).*
-
 - [x] **Prompt 5: App shell:**
   - Implemented signed-in shell layout in `src/routes/app/route.tsx` with collapsible sidebar (240px / 72px) and mobile sheet drawer (`DrawerContent side="left"`).
   - Added all 10 sidebar navigation items in exact design doc order with Lucide icons, active mint pill sliding via `layoutId="sidebar-active-pill"`, workspace name/plan header, and real-time AI quota footer card read from `ai_usage`.
@@ -73,60 +52,75 @@ Once you have created your Supabase project in the Supabase Dashboard:
   - Implemented branded 404 page (`src/components/branded-not-found.tsx` and `src/routes/$.tsx`) and Error Boundary (`src/components/branded-error-boundary.tsx`), both featuring the custom agent-node motif.
   - Added accessibility features: visible skip-to-content landmark link, keyboard navigation across sidebar and command palette, and persisted sidebar collapsed state in `localStorage` under `cadre.sidebar_collapsed`.
   - Validated: `npm run lint` (0 errors, 0 warnings), `npm run typecheck` (0 errors), `npm run test` (18/18 passing), `npm run build` (built in 4.31s).
+- [x] **Prompt 6: Landing page, pricing and legal pages:**
+  - Implemented all 12 marketing components in `src/components/marketing/`:
+    - `Nav`: Glass bar, logo mark lockup, scroll shrink state (border + background), desktop nav links, mobile menu overlay, magnetic CTAs.
+    - `Hero`: Headline word-reveal ("The AI team that runs your revenue."), Aurora background, cursor-tracking GridSpotlight, tilting 3D dashboard preview with CountUp KPIs and live ticking agent feed.
+    - `BuiltWith`: Marquee strip displaying verified technologies (Gemini, Supabase, React 19, Cloudflare Pages, Tailwind, TypeScript) with zero fabricated logos.
+    - `ProblemStats`: 3 true product facts with CountUp ("6 AI Agents", "8 Revenue Modules", "< 15s Analysis Time").
+    - `Bento`: Asymmetric 6-card spotlight grid with looping SVG micro-animations for all 6 commercial workflows.
+    - `AgentOrbit`: Interactive SVG hub-and-spoke with the AI CEO at the gold core, 5 satellite agents, light pulses, and full inspector card on hover/focus.
+    - `Demo`: Scripted typewriter simulator qualifying a lead, animated progress bar, and staggered Gemini analysis results (clearly marked with "Sample Data" badge).
+    - `HowItWorks`: Pinned 3-step story (Connect data, Autonomous agents work, Act on CEO plan) morphing visuals on desktop, collapsing to stacked view on mobile and when reduced motion is preferred.
+    - `PricingSection`: Free ($0), Pro ($49/mo, $39/mo billed yearly), Scale ($149/mo, $119/mo billed yearly). Monthly/yearly toggle saving 2 months. Pro highlighted with `AnimatedBorder` and gold "Most Popular" badge. Formatted via `formatCurrency` in USD.
+    - `Faq`: Radix Accordion with 5 real answers on free tier quotas, RLS security, Gemini 2.5 Flash models, CSV export, and roadmap integrations.
+    - `FinalCta`: Aurora background panel with magnetic "Start free" button and trust points.
+    - `Footer`: Brand lockup, product module links, legal links, copyright, and "Made with care in India".
+  - Created standalone `/pricing` route (`src/routes/pricing.tsx`).
+  - Created plain-English, readable, responsive legal pages with back links:
+    - `/terms` (`src/routes/terms.tsx`): 9 comprehensive sections detailing service scope, AI output disclaimer, multi-tenant isolation, acceptable use, and data ownership.
+    - `/privacy` (`src/routes/privacy.tsx`): 8 clear sections covering data categories, zero model training policy, PostgreSQL RLS tenant isolation, retention, and GDPR/CCPA rights.
+  - Implemented Node script `scripts/generate-og-image.mjs` generating a branded 1200x630 OpenGraph PNG (`public/og-image.png`) with aurora blobs and agent node geometries, automatically triggered during `npm run build`.
+  - Added JSON-LD `SoftwareApplication` structured data snippet to landing page `<head>`.
+  - Verified bundle performance: Initial gzipped JS bundle size is **208.17 KB** (well within the 250 KB performance budget).
+  - Validated: `npm run lint` (0 errors, 0 warnings), `npm run typecheck` (0 errors), `npm run test` (18/18 passing), `npm run build` (built in 8.57s).
 
-## How to generate types from your remote Supabase project
-Once you have created your Supabase project in the Supabase Dashboard:
-1. Log in with the Supabase CLI:
-   ```bash
-   npx supabase login
-   ```
-2. Link your local project to your remote Supabase project:
-   ```bash
-   npx supabase link --project-ref <your-project-ref>
-   ```
-3. Push the migration to your database:
-   ```bash
-   npx supabase db push
-   ```
-4. Regenerate TypeScript definitions from the live remote schema:
-   ```bash
-   npx supabase gen types typescript --project-id <your-project-ref> > src/types/database.ts
-   ```
-*(Note: If using local Docker development instead, run `npx supabase start` followed by `npm run types`).*
+## Legal Page Placeholders to Fill in
+The legal pages in `src/routes/terms.tsx` and `src/routes/privacy.tsx` contain standard company placeholders. Please review and replace the following strings when deploying to production:
+- `[YOUR COMPANY NAME]` (e.g. "Cadre Technologies Inc.")
+- `[YOUR EMAIL]` (e.g. "legal@cadre.ai" or "privacy@cadre.ai")
+- `[YOUR ADDRESS]` (e.g. your registered corporate address)
 
 ## In progress
-- Ready to proceed with **Prompt 6: Landing page, pricing and legal pages**.
+- Ready to proceed with **Prompt 7: Edge Function infrastructure and Gemini client**.
 
 ## Next
-1. **Prompt 6: Landing page, pricing and legal pages**
-   - Build marketing sections in `src/components/marketing`: Hero, BuiltWith, ProblemStats, Bento, AgentOrbit, Demo, HowItWorks, Pricing, Faq, FinalCta, Footer.
-   - Word-reveal headline, tilting dashboard preview, Lenis smooth scroll on landing, ScrollProgress bar.
-   - Standalone `/pricing`, `/terms`, `/privacy` pages.
-   - Generate `public/og-image.png` (1200x630) with script.
-2. **Prompt 7: Edge Function infrastructure and Gemini client**
+1. **Prompt 7: Edge Function infrastructure and Gemini client**
    - Scaffold `supabase/functions/_shared/` (cors, http, auth, quota, gemini, schemas, prompts, safe-url).
    - Setup client-side `src/lib/ai.ts` helpers and write Deno tests.
-5. **Prompt 8: Leads module**
+2. **Prompt 8: Leads module**
    - Build `/app/leads` table, CSV import, drawer, and `analyze-lead` Edge Function.
-6. **Prompt 9: Meetings module**
+3. **Prompt 9: Meetings module**
    - Build `/app/meetings` list, VTT/SRT transcript upload, and `analyze-meeting` Edge Function.
-7. **Prompt 10: Churn module**
+4. **Prompt 10: Churn module**
    - Build `/app/churn` account table, MRR-at-risk metrics, and `analyze-churn` Edge Function.
-8. **Prompt 11: Competitors module**
+5. **Prompt 11: Competitors module**
    - Build `/app/competitors` radar, battlecards, and `scan-competitor` Edge Function with SSRF controls.
-9. **Prompt 12: Revenue and Command Center**
+6. **Prompt 12: Revenue and Command Center**
    - Build `/app/revenue` forecast models, kanban board, and `explain-forecast` Edge Function.
    - Wire `/app` Command Center with live aggregates.
-10. **Prompt 13: Agents and AI CEO**
-    - Build `/app/agents` roster and `/app/ceo` strategic planner with `ceo-command` Edge Function.
-11. **Prompt 14: Insights and Settings**
-    - Build `/app/insights` daily brief (`daily-insights` Edge Function) and `/app/settings` with `delete-account`.
-12. **Prompt 15: Polish, accessibility and performance**
-    - Full WCAG 2.2 AA audit, code-splitting, responsive polish, and motion QA.
-13. **Prompt 16: Tests and CI**
+7. **Prompt 13: Agents and AI CEO**
+   - Build `/app/agents` roster and `/app/ceo` strategic planner with `ceo-command` Edge Function.
+8. **Prompt 14: Insights and Settings**
+   - Build `/app/insights` daily brief (`daily-insights` Edge Function) and `/app/settings` with `delete-account`.
+9. **Prompt 15: Polish, accessibility and performance**
+   - Full WCAG 2.2 AA audit, code-splitting, responsive polish, and motion QA.
+10. **Prompt 16: Tests and CI**
     - Implement Vitest unit/component tests and Playwright E2E flows; verify CI pipeline.
-14. **Prompt 17: Deployment prep, final cleanup and QA**
+11. **Prompt 17: Deployment prep, final cleanup and QA**
     - Delete `legacy/`, run clean string checks, audit security checklist, and report final metrics.
+
+## Decisions
+- **SPA Architecture:** Abandoned TanStack Start SSR / Nitro server in favor of a clean, static React 19 SPA deployable to Cloudflare Pages.
+- **AI Boundary:** Google Gemini API keys are isolated strictly within Supabase Edge Functions. Frontend only uses Supabase publishable key and user JWT.
+- **Data Layer:** Dropped Drizzle ORM in favor of standard PostgreSQL migrations (`supabase/migrations/0001_init.sql`) with mandatory Row Level Security (RLS) policies.
+- **Package Management:** Standardized on `npm` (`package-lock.json`), removing Bun and Yarn artifacts.
+- **Design Language:** Obsidian & Aurora theme (near-black `#05060A`, mint `#2DE2A6`, cyan `#22D3EE`, gold `#F5B94A`) replacing previous Indigo light aesthetic.
+- **Currency:** Exclusively USD ($), formatted with `Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })`.
+- **Zero Synthetic Claims:** All landing metrics, tech logos, and product statements reflect verified architectural realities; sample product simulator explicitly labeled with "Sample Data" banner.
+
+## Blocked
+- None currently.
 
 ## Decisions
 - **SPA Architecture:** Abandoned TanStack Start SSR / Nitro server in favor of a clean, static React 19 SPA deployable to Cloudflare Pages.

@@ -9,3 +9,4 @@ export const Route = createFileRoute('/$')({
 function NotFoundRoute() {
   return <BrandedNotFound />;
 }
+

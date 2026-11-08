@@ -65,3 +65,4 @@ export function BrandedErrorBoundary({ error, reset }: BrandedErrorBoundaryProps
     </div>
   );
 }
+

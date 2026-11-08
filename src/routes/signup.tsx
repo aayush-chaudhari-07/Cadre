@@ -14,10 +14,16 @@ import { useAuth } from '@/features/auth';
 import { signupSchema, getFriendlyAuthErrorMessage, type SignupInput } from '@/features/auth/schemas';
 import { validateRedirectPath } from '@/features/auth/utils';
 
+import { z } from 'zod';
+
+const signupSearchSchema = z.object({
+  redirect: z.string().optional(),
+});
+
+export type SignupSearch = z.infer<typeof signupSearchSchema>;
+
 export const Route = createFileRoute('/signup')({
-  validateSearch: (search: Record<string, unknown>) => ({
-    redirect: typeof search.redirect === 'string' ? search.redirect : undefined,
-  }),
+  validateSearch: (search) => signupSearchSchema.parse(search),
   component: SignupPage,
 });
 
