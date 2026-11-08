@@ -18,12 +18,14 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { SentimentBadge } from './sentiment-badge';
 import { DealHealthRing } from './deal-health-ring';
 import { ActionItemsList } from './action-items-list';
 import { DeleteMeetingDialog } from './delete-meeting-dialog';
 import { useAnalyzeMeeting } from '../hooks';
+import { useAgentGate } from '@/features/agents';
 import { formatRelativeDate } from '@/lib/format';
 import { toast } from 'sonner';
 import type { MeetingRow } from '../api';
@@ -44,6 +46,7 @@ export function MeetingDetailView({
   const [copiedTranscript, setCopiedTranscript] = useState(false);
 
   const analyzeMutation = useAnalyzeMeeting();
+  const { isEnabled: isOpsEnabled, disabledReason: opsDisabledReason } = useAgentGate('operations');
 
   // Safely extract analysis JSON if available
   const rawAnalysis = meeting.analysis as unknown as Partial<MeetingAnalysis> | null;
@@ -122,20 +125,33 @@ export function MeetingDetailView({
 
         {/* Action Controls */}
         <div className="flex items-center gap-2">
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleReanalyze}
-            disabled={analyzeMutation.isPending}
-            className="gap-1.5 text-xs h-9"
-          >
-            {analyzeMutation.isPending ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-[var(--cyan)]" />
-            ) : (
-              <Sparkles className="w-3.5 h-3.5 text-[var(--cyan)]" />
-            )}
-            <span>{isAnalyzed ? 'Re-analyze' : 'Analyze Now'}</span>
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleReanalyze}
+                    disabled={analyzeMutation.isPending || !isOpsEnabled}
+                    className="gap-1.5 text-xs h-9"
+                  >
+                    {analyzeMutation.isPending ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin text-[var(--cyan)]" />
+                    ) : (
+                      <Sparkles className="w-3.5 h-3.5 text-[var(--cyan)]" />
+                    )}
+                    <span>{isAnalyzed ? 'Re-analyze' : 'Analyze Now'}</span>
+                  </Button>
+                </span>
+              </TooltipTrigger>
+              {!isOpsEnabled && (
+                <TooltipContent>
+                  {opsDisabledReason}
+                </TooltipContent>
+              )}
+            </Tooltip>
+          </TooltipProvider>
 
           <Button
             variant="ghost"

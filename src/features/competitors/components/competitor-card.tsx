@@ -14,6 +14,7 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -22,6 +23,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { formatRelativeDate } from '@/lib/format';
 import { useScanCompetitor } from '../hooks';
+import { useAgentGate } from '@/features/agents';
 import { toast } from 'sonner';
 import type { CompetitorRow } from '../api';
 import type { CompetitorScan } from '@/types/ai';
@@ -39,6 +41,7 @@ export function CompetitorCard({
 }: CompetitorCardProps) {
   const [scanStep, setScanStep] = useState<'idle' | 'fetching' | 'analyzing'>('idle');
   const scanMutation = useScanCompetitor();
+  const { isEnabled: isMarketingEnabled, disabledReason: marketingDisabledReason } = useAgentGate('marketing');
 
   // Extract clean domain
   const domain = (() => {
@@ -183,25 +186,38 @@ export function CompetitorCard({
               <ChevronRight className="w-3.5 h-3.5" />
             </span>
 
-            <Button
-              variant={isScanned ? 'secondary' : 'primary'}
-              size="sm"
-              onClick={handleScan}
-              disabled={isScanning}
-              className="h-8 text-xs gap-1.5 shrink-0"
-            >
-              {isScanning ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  <span>{scanStep === 'fetching' ? 'Fetching page...' : 'Analyzing...'}</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-3.5 h-3.5 text-[var(--cyan)]" />
-                  <span>{isScanned ? 'Re-scan' : 'Scan Page'}</span>
-                </>
-              )}
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span onClick={(e) => e.stopPropagation()}>
+                    <Button
+                      variant={isScanned ? 'secondary' : 'primary'}
+                      size="sm"
+                      onClick={handleScan}
+                      disabled={isScanning || !isMarketingEnabled}
+                      className="h-8 text-xs gap-1.5 shrink-0"
+                    >
+                      {isScanning ? (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          <span>{scanStep === 'fetching' ? 'Fetching page...' : 'Analyzing...'}</span>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-3.5 h-3.5 text-[var(--cyan)]" />
+                          <span>{isScanned ? 'Re-scan' : 'Scan Page'}</span>
+                        </>
+                      )}
+                    </Button>
+                  </span>
+                </TooltipTrigger>
+                {!isMarketingEnabled && (
+                  <TooltipContent onClick={(e) => e.stopPropagation()}>
+                    {marketingDisabledReason}
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </CardContent>

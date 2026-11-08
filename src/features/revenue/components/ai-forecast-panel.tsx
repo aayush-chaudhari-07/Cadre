@@ -9,7 +9,9 @@ import {
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useExplainForecast } from '../hooks';
+import { useAgentGate } from '@/features/agents';
 import type { RevenueMetrics, DealRow } from '../forecast';
 import type { ForecastNote } from '@/types/ai';
 import { toast } from 'sonner';
@@ -23,6 +25,7 @@ export function AiForecastPanel({ metrics, deals }: AiForecastPanelProps) {
   const explainMutation = useExplainForecast();
   const [copied, setCopied] = useState(false);
   const [forecastNote, setForecastNote] = useState<ForecastNote | null>(null);
+  const { isEnabled: isFinanceEnabled, disabledReason: financeDisabledReason } = useAgentGate('finance');
 
   const handleExplain = async () => {
     // Build a compact summary of deals for the model
@@ -109,25 +112,38 @@ ${topDeals || 'None'}
             </Button>
           )}
 
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleExplain}
-            disabled={isPending}
-            className="h-8 text-xs gap-1.5 text-[var(--cyan)] hover:text-[var(--cyan)]"
-          >
-            {isPending ? (
-              <>
-                <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                <span>Analyzing...</span>
-              </>
-            ) : (
-              <>
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>{forecastNote ? 'Re-analyze' : 'Explain Forecast'}</span>
-              </>
-            )}
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleExplain}
+                    disabled={isPending || !isFinanceEnabled}
+                    className="h-8 text-xs gap-1.5 text-[var(--cyan)] hover:text-[var(--cyan)]"
+                  >
+                    {isPending ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>Analyzing...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>{forecastNote ? 'Re-analyze' : 'Explain Forecast'}</span>
+                      </>
+                    )}
+                  </Button>
+                </span>
+              </TooltipTrigger>
+              {!isFinanceEnabled && (
+                <TooltipContent>
+                  {financeDisabledReason}
+                </TooltipContent>
+              )}
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </CardHeader>
 

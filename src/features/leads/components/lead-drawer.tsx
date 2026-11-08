@@ -8,11 +8,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ScoreRing } from './score-ring';
 import { Burst } from '@/components/motion/burst';
 import { formatCurrency, formatRelativeDate } from '@/lib/format';
 import { analyzeLead, type LeadAnalysis } from '@/lib/ai';
 import { useLead, useLeadInteractions } from '../hooks';
+import { useAgentGate } from '@/features/agents';
 import type { LeadInteractionChannel } from '../schemas';
 import { useQueryClient } from '@tanstack/react-query';
 import {
@@ -47,6 +49,7 @@ export function LeadDrawer({
   const queryClient = useQueryClient();
   const { data: lead, isLoading: leadLoading } = useLead(leadId || undefined);
   const { data: interactions = [] } = useLeadInteractions(leadId || undefined);
+  const { isEnabled: isSalesEnabled, disabledReason: salesDisabledReason } = useAgentGate('sales');
 
   // Analysis form state
   const [channel, setChannel] = useState<LeadInteractionChannel>('email');
@@ -346,23 +349,36 @@ export function LeadDrawer({
                 </div>
 
                 {/* Submit Action */}
-                <Button
-                  onClick={handleRunAnalysis}
-                  disabled={!leadText.trim() || isAnalyzing}
-                  className="w-full font-semibold bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-[var(--primary-ink)] shadow-md shadow-[var(--primary)]/10"
-                >
-                  {isAnalyzing ? (
-                    <span className="flex items-center gap-2">
-                      <span className="w-3.5 h-3.5 border-2 border-[var(--primary-ink)] border-t-transparent rounded-full animate-spin" />
-                      Gemini Qualifying Lead...
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-1.5">
-                      <Sparkles className="w-4 h-4 mr-1" />
-                      Run AI Sales Qualification
-                    </span>
-                  )}
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="w-full">
+                        <Button
+                          onClick={handleRunAnalysis}
+                          disabled={!leadText.trim() || isAnalyzing || !isSalesEnabled}
+                          className="w-full font-semibold bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-[var(--primary-ink)] shadow-md shadow-[var(--primary)]/10"
+                        >
+                          {isAnalyzing ? (
+                            <span className="flex items-center gap-2">
+                              <span className="w-3.5 h-3.5 border-2 border-[var(--primary-ink)] border-t-transparent rounded-full animate-spin" />
+                              Gemini Qualifying Lead...
+                            </span>
+                          ) : (
+                            <span className="flex items-center gap-1.5">
+                              <Sparkles className="w-4 h-4 mr-1" />
+                              Run AI Sales Qualification
+                            </span>
+                          )}
+                        </Button>
+                      </span>
+                    </TooltipTrigger>
+                    {!isSalesEnabled && (
+                      <TooltipContent>
+                        {salesDisabledReason}
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
+                </TooltipProvider>
               </div>
 
               {/* Interaction History Timeline */}

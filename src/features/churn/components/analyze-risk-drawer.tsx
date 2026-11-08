@@ -9,12 +9,14 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { RiskBadge } from './risk-badge';
 import { HealthScoreBar } from './health-score-bar';
 import { formatCurrency } from '@/lib/format';
 import { getDaysUntilRenewal } from '../metrics';
 import { useAccount, useAnalyzeChurn } from '../hooks';
+import { useAgentGate } from '@/features/agents';
 import type { ChurnAnalysis } from '@/types/ai';
 import {
   Sparkles,
@@ -46,6 +48,7 @@ export function AnalyzeRiskDrawer({
 }: AnalyzeRiskDrawerProps) {
   const { data: account, isLoading: accountLoading } = useAccount(accountId || undefined);
   const analyzeMutation = useAnalyzeChurn();
+  const { isEnabled: isSupportEnabled, disabledReason: supportDisabledReason } = useAgentGate('support');
 
   const [contextNotes, setContextNotes] = useState('');
   const [copiedMessage, setCopiedMessage] = useState(false);
@@ -208,20 +211,33 @@ export function AnalyzeRiskDrawer({
                     Evaluated by Support Agent using active customer signals and contract timeline.
                   </p>
                 </div>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={handleRunAnalysis}
-                  disabled={analyzeMutation.isPending}
-                  className="h-8 text-xs shrink-0 gap-1.5"
-                >
-                  {analyzeMutation.isPending ? (
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  ) : (
-                    <Sparkles className="w-3.5 h-3.5 text-[var(--cyan)]" />
-                  )}
-                  <span>Re-analyze</span>
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span>
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={handleRunAnalysis}
+                          disabled={analyzeMutation.isPending || !isSupportEnabled}
+                          className="h-8 text-xs shrink-0 gap-1.5"
+                        >
+                          {analyzeMutation.isPending ? (
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          ) : (
+                            <Sparkles className="w-3.5 h-3.5 text-[var(--cyan)]" />
+                          )}
+                          <span>Re-analyze</span>
+                        </Button>
+                      </span>
+                    </TooltipTrigger>
+                    {!isSupportEnabled && (
+                      <TooltipContent>
+                        {supportDisabledReason}
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
+                </TooltipProvider>
               </div>
 
               {/* Reasons Card */}
@@ -343,24 +359,37 @@ export function AnalyzeRiskDrawer({
                   />
                 </div>
 
-                <Button
-                  variant="primary"
-                  onClick={handleRunAnalysis}
-                  disabled={analyzeMutation.isPending}
-                  className="gap-2 mt-2"
-                >
-                  {analyzeMutation.isPending ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Analyzing Churn Hazard...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-4 h-4" />
-                      Analyze Churn Risk
-                    </>
-                  )}
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span>
+                        <Button
+                          variant="primary"
+                          onClick={handleRunAnalysis}
+                          disabled={analyzeMutation.isPending || !isSupportEnabled}
+                          className="gap-2 mt-2"
+                        >
+                          {analyzeMutation.isPending ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                              Analyzing Churn Hazard...
+                            </>
+                          ) : (
+                            <>
+                              <Sparkles className="w-4 h-4" />
+                              Analyze Churn Risk
+                            </>
+                          )}
+                        </Button>
+                      </span>
+                    </TooltipTrigger>
+                    {!isSupportEnabled && (
+                      <TooltipContent>
+                        {supportDisabledReason}
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
+                </TooltipProvider>
               </CardContent>
             </Card>
           )}

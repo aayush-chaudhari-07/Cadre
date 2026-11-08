@@ -1,6 +1,6 @@
 # Cadre Project Status
 
-Last updated: Prompt 12 (Revenue module and Command Center)
+Last updated: Prompt 13 (Agents and AI CEO)
 
 ## Done
 - [x] Full architectural and codebase audit completed (`PROJECT_INFO.md`).
@@ -182,20 +182,42 @@ The legal pages in `src/routes/terms.tsx` and `src/routes/privacy.tsx` contain s
     - Top action bar with "Run today's brief" button and tooltip.
     - Sample data loader banner when workspace has no data.
   - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (54/54 passing), `npm run build` (built in 27.46s).
+- [x] **Prompt 13: Agents and AI CEO:**
+  - Implemented `supabase/functions/ceo-command/index.ts` with CORS, JWT auth, CEO agent enabled check, quota validation, tenant-isolated workspace telemetry aggregator (leads, deals, at-risk accounts, competitors, recent agent runs), Gemini 2.5 Flash reasoning at temperature 0.6 using `CEO_COMMAND_PROMPT`, validating that every action maps to one of the 6 canonical agent keys (`'ceo'`, `'sales'`, `'operations'`, `'support'`, `'marketing'`, `'finance'`), saving to `public.ceo_plans` (`status: 'draft'`), and recording audit row in `agent_runs` for the CEO agent.
+  - Created shared agent gating hook `useAgentGate(agentKey)` querying the workspace's agent roster and returning `{ agent, isEnabled, autonomy, disabledReason, isLoading }`.
+  - Integrated `useAgentGate` across all 5 operational modules:
+    - `/app/leads` drawer: gated with Sales agent (`useAgentGate('sales')`)
+    - `/app/meetings` detail view: gated with Operations agent (`useAgentGate('operations')`)
+    - `/app/churn` risk drawer: gated with Support agent (`useAgentGate('support')`)
+    - `/app/competitors` scan card: gated with Marketing agent (`useAgentGate('marketing')`)
+    - `/app/revenue` forecast panel: gated with Finance agent (`useAgentGate('finance')`)
+    - `/app/ceo` command console: gated with CEO agent (`useAgentGate('ceo')`)
+  - Implemented `src/features/agents/`:
+    - `api.ts`, `hooks.ts`, `schemas.ts` for agent updates, autonomy transitions, run logs, and 7-day sparkline computations.
+    - `components/agent-avatar.tsx`: node-motif avatar featuring specialized colors (Gold CEO, Mint Sales, Cyan Operations, Orange Support, Purple Marketing, Emerald Finance) and orbital nodes.
+    - `components/agent-sparkline.tsx`: SVG sparkline tracking 7-day execution trends.
+    - `components/agent-card.tsx`: card with avatar, role, autonomy segmented selector (`off`, `suggest`, `auto`), enabled toggle switch, total runs, last run, and sparkline.
+    - `components/agent-activity-log.tsx`: filterable audit trail from `agent_runs` with formatted JSON inspection drawer.
+  - Implemented `src/features/ceo/`:
+    - `api.ts`, `hooks.ts`, `schemas.ts` with `normalizeAgentKey` utility.
+    - `components/ceo-command-box.tsx`: gold accent directive box with 2000 character limit, example directive chips, and `Ctrl/Cmd+Enter` shortcut.
+    - `components/ceo-plan-view.tsx`: progressive presentation rendering goal, executive summary, phased timeline, action cards tagged with owning agents, success KPIs, execution risks, one-click Markdown copy, and "Approve Plan" button with `Burst` celebration.
+    - `components/ceo-plan-history.tsx`: interactive list of past directives with status badges (`Draft`, `Approved`, `Done`).
+  - Implemented `/app/agents` and `/app/ceo` route pages.
+  - Authored unit test suite `tests/unit/ceo.test.ts` (9 tests) covering agent normalization, fallback behavior, plan schema parsing, and autonomy validation.
+  - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (63/63 passing), `npm run build` (built in 18.82s).
 
 ## In progress
-- Ready to proceed with **Prompt 13: Agents and AI CEO**.
+- Ready to proceed with **Prompt 14: Insights and Settings**.
 
 ## Next
-1. **Prompt 13: Agents and AI CEO**
-   - Build `/app/agents` roster and `/app/ceo` strategic planner with `ceo-command` Edge Function.
-2. **Prompt 14: Insights and Settings**
+1. **Prompt 14: Insights and Settings**
    - Build `/app/insights` daily brief (`daily-insights` Edge Function) and `/app/settings` with `delete-account`.
-3. **Prompt 15: Polish, accessibility and performance**
+2. **Prompt 15: Polish, accessibility and performance**
    - Full WCAG 2.2 AA audit, code-splitting, responsive polish, and motion QA.
-4. **Prompt 16: Tests and CI**
+3. **Prompt 16: Tests and CI**
    - Implement Vitest unit/component tests and Playwright E2E flows; verify CI pipeline.
-5. **Prompt 17: Deployment prep, final cleanup and QA**
+4. **Prompt 17: Deployment prep, final cleanup and QA**
    - Delete `legacy/`, run clean string checks, audit security checklist, and report final metrics.
 
 ## Decisions
