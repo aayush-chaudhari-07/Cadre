@@ -56,5 +56,34 @@ npm run dev
 ## Privacy note
 On the free Gemini tier, Google may use inputs and outputs to improve its products. Do not enter passwords, payment data or health data. Move to a paid key before handling real customer data.
 
+## Contributing
+
+We welcome contributions to Cadre! Follow these conventions to keep the codebase clean, robust, and production-ready:
+
+### Workflow & Scripts
+1. **Prerequisites & Installation:**
+   ```bash
+   npm ci
+   cp .env.example .env
+   ```
+2. **Local Development:**
+   ```bash
+   npm run dev
+   ```
+3. **Quality & Validation Suite:**
+   Before committing or opening a pull request, ensure all checks pass cleanly:
+   ```bash
+   npm run lint        # ESLint strict rules
+   npm run typecheck   # TypeScript strict typechecking (zero errors)
+   npm test            # Vitest unit and component tests
+   npm run build       # Vite production bundle build
+   npm run test:e2e    # Playwright end-to-end test suite
+   ```
+4. **Hard Rules & Conventions:**
+   - Package manager is **npm**. Never use yarn, bun, or pnpm.
+   - Currency is **USD** everywhere, formatted strictly via `formatCurrency` or `Intl.NumberFormat`.
+   - The Google Gemini API key and Supabase service role key live solely in secure server environments (Edge Function secrets). Zero server secrets in browser or git.
+   - Every screen must feature loading, empty, and error states, with full WCAG 2.2 AA accessibility and responsive support (360px to 1920px).
+
 ## License
 To be decided.

@@ -6,6 +6,7 @@ import { AppTopbar } from '@/features/app-shell/components/app-topbar';
 import { CommandPalette } from '@/features/app-shell/components/command-palette';
 import { Drawer, DrawerContent } from '@/components/ui/drawer';
 import { PageTransition } from '@/components/motion/page-transition';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 
 export const Route = createFileRoute('/app')({
   beforeLoad: async ({ location }) => {
@@ -37,6 +38,7 @@ export const Route = createFileRoute('/app')({
       });
     }
   },
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
   component: AppShellLayout,
 });
 

@@ -59,8 +59,8 @@ describe('CSV Parsing and Validation', () => {
   it('validates a complete, well-formed lead row', () => {
     const rawRow = {
       name: 'John Doe',
-      company: 'Acme Corp',
-      email: 'john@acme.com',
+      company: 'Apex Global',
+      email: 'john@apex.com',
       source: 'Website Demo',
       dealValue: 15000,
     };
@@ -69,7 +69,7 @@ describe('CSV Parsing and Validation', () => {
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.name).toBe('John Doe');
-      expect(result.data.company).toBe('Acme Corp');
+      expect(result.data.company).toBe('Apex Global');
       expect(result.data.dealValue).toBe(15000);
     }
   });
@@ -77,8 +77,8 @@ describe('CSV Parsing and Validation', () => {
   it('rejects rows with missing or empty name', () => {
     const missingName = {
       name: '',
-      company: 'Acme Corp',
-      email: 'john@acme.com',
+      company: 'Apex Global',
+      email: 'john@apex.com',
     };
 
     const result = csvRowSchema.safeParse(missingName);

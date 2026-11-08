@@ -38,3 +38,4 @@ export const deleteAccountFormSchema = z.object({
   }),
 });
 export type DeleteAccountFormValues = z.infer<typeof deleteAccountFormSchema>;
+

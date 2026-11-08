@@ -178,3 +178,4 @@ export function ForecastAreaChart({ deals }: ForecastAreaChartProps) {
     </Card>
   );
 }
+

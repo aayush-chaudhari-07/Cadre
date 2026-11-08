@@ -9,3 +9,4 @@ export const updateAgentSchema = z.object({
   config: z.record(z.unknown()).optional(),
 });
 export type UpdateAgentInput = z.infer<typeof updateAgentSchema>;
+

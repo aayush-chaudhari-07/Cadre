@@ -40,3 +40,4 @@ export function getRelatedModuleForAction(action: string): { label: string; path
   }
   return { label: 'Open AI CEO', path: '/app/ceo' };
 }
+

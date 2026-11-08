@@ -147,7 +147,7 @@ ${topDeals || 'None'}
         </div>
       </CardHeader>
 
-      <CardContent className="p-4">
+      <CardContent className="p-4" aria-live="polite">
         {forecastNote ? (
           <div className="space-y-4">
             {/* Executive Narrative */}

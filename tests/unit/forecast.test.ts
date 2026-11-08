@@ -162,3 +162,4 @@ describe('Revenue Forecasting Engine', () => {
     expect(metrics.averageSalesCycleDays).toBe(0);
   });
 });
+

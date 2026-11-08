@@ -30,9 +30,11 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatCurrency } from '@/lib/format';
 import { toast } from 'sonner';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 
 export const Route = createFileRoute('/app/revenue')({
   component: RevenuePage,
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
 });
 
 function RevenuePage() {

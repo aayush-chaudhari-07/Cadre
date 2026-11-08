@@ -97,3 +97,4 @@ ${body.dealsSummary || 'No individual deal summary supplied.'}
     return error('internal_error', 'An unexpected error occurred while explaining the revenue forecast.', 500, req);
   }
 }
+

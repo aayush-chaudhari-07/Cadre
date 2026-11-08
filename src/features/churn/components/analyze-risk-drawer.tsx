@@ -190,7 +190,7 @@ export function AnalyzeRiskDrawer({
 
           {/* AI Analysis Section */}
           {analysis ? (
-            <div className="space-y-6">
+            <div className="space-y-6" aria-live="polite">
               {/* Risk Level Banner */}
               <div className={cn(
                 'p-4 rounded-xl border flex items-center justify-between gap-4',

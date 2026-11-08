@@ -19,9 +19,11 @@ import {
   AccountTab,
 } from '@/features/settings';
 import { useWorkspace } from '@/features/workspace';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 
 export const Route = createFileRoute('/app/settings')({
   component: SettingsPage,
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
 });
 
 function SettingsPage() {

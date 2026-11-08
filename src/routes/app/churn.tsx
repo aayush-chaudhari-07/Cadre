@@ -60,9 +60,11 @@ import {
 import { formatCurrency } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 
 export const Route = createFileRoute('/app/churn')({
   component: ChurnPage,
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
 });
 
 function ChurnPage() {

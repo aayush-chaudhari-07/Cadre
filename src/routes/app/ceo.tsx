@@ -15,9 +15,11 @@ import {
   type CeoPlan,
 } from '@/features/ceo';
 import { toast } from 'sonner';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 
 export const Route = createFileRoute('/app/ceo')({
   component: CeoPage,
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
 });
 
 function CeoPage() {

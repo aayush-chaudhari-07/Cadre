@@ -177,3 +177,4 @@ export function AgentCard({ agent, stats, onUpdate }: AgentCardProps) {
     </Card>
   );
 }
+

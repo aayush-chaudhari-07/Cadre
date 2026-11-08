@@ -24,3 +24,4 @@ export interface RevenueFilters {
   quarter?: string;
   stage?: string;
 }
+

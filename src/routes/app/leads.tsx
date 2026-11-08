@@ -48,9 +48,11 @@ import {
   FileSpreadsheet,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 
 export const Route = createFileRoute('/app/leads')({
   component: LeadsPage,
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
 });
 
 const STATUS_FILTERS: { label: string; value: LeadStatus | 'all' }[] = [

@@ -206,3 +206,4 @@ OPERATIONS & COMPETITIVE:
     return error('internal_error', 'An unexpected error occurred while generating daily insights.', 500, req);
   }
 }
+

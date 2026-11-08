@@ -136,7 +136,7 @@ ${plan.risks.map((r) => `- ${r}`).join('\n')}
   };
 
   return (
-    <div className="space-y-6 relative">
+    <div className="space-y-6 relative" aria-live="polite">
       {/* Burst Animation on Approval */}
       {showBurst && <Burst count={24} onComplete={() => setShowBurst(false)} />}
 

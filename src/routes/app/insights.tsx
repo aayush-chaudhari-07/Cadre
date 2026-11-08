@@ -14,9 +14,11 @@ import {
 } from '@/features/insights';
 import { useAgentGate } from '@/features/agents';
 import { toast } from 'sonner';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 
 export const Route = createFileRoute('/app/insights')({
   component: InsightsPage,
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
 });
 
 function InsightsPage() {

@@ -14,9 +14,11 @@ import {
   type AgentRow,
 } from '@/features/agents';
 import { toast } from 'sonner';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 
 export const Route = createFileRoute('/app/agents')({
   component: AgentsPage,
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
 });
 
 function AgentsPage() {

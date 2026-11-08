@@ -90,3 +90,4 @@ export async function handler(req: Request): Promise<Response> {
     return error('internal_error', 'An unexpected error occurred while deleting your account.', 500, req);
   }
 }
+

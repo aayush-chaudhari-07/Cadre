@@ -10,6 +10,9 @@ export const competitorFormSchema = z.object({
     .refine((val) => {
       try {
         const parsed = new URL(val);
+        if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+          return false;
+        }
         const host = parsed.hostname.toLowerCase();
         if (
           host === 'localhost' ||
@@ -27,7 +30,7 @@ export const competitorFormSchema = z.object({
       } catch {
         return false;
       }
-    }, 'Internal, private, and loopback URLs are prohibited for security.'),
+    }, 'Must be a valid public HTTP or HTTPS web address.'),
 });
 
 export type CompetitorFormData = z.infer<typeof competitorFormSchema>;

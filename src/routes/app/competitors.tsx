@@ -24,6 +24,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 
 interface CompetitorsSearch {
   competitorId?: string;
@@ -35,6 +36,7 @@ export const Route = createFileRoute('/app/competitors')({
       competitorId: typeof search.competitorId === 'string' ? search.competitorId : undefined,
     };
   },
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
   component: CompetitorsPage,
 });
 

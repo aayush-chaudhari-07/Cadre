@@ -184,7 +184,7 @@ export function LeadDrawer({
         </DrawerHeader>
 
         {/* Scrollable Content Body */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6" aria-live="polite">
           {leadLoading ? (
             <div className="space-y-4 py-8">
               <div className="h-12 rounded-lg bg-[var(--surface-2)] animate-pulse" />

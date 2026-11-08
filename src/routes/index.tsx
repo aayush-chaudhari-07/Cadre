@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
-import Lenis from 'lenis';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { ScrollProgress } from '@/components/motion/scroll-progress';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 import {
   Nav,
   Hero,
@@ -20,33 +20,40 @@ import {
 
 export const Route = createFileRoute('/')({
   component: LandingPage,
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
 });
 
 function LandingPage() {
   const shouldReduce = useReducedMotion();
 
-  // Initialize Lenis smooth scroll on landing page only; destroy on unmount; bypass if reduced motion
+  // Lazy-load Lenis smooth scroll on landing page only; destroy on unmount; bypass if reduced motion
   useEffect(() => {
     if (shouldReduce) return;
 
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
+    let lenisInstance: { raf: (time: number) => void; destroy: () => void } | null = null;
+    let animationFrameId: number;
+    let isCancelled = false;
+
+    import('lenis').then(({ default: LenisClass }) => {
+      if (isCancelled) return;
+      lenisInstance = new LenisClass({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+      });
+
+      function raf(time: number) {
+        lenisInstance?.raf(time);
+        animationFrameId = requestAnimationFrame(raf);
+      }
+
+      animationFrameId = requestAnimationFrame(raf);
     });
 
-    let animationFrameId: number;
-
-    function raf(time: number) {
-      lenis.raf(time);
-      animationFrameId = requestAnimationFrame(raf);
-    }
-
-    animationFrameId = requestAnimationFrame(raf);
-
     return () => {
+      isCancelled = true;
       cancelAnimationFrame(animationFrameId);
-      lenis.destroy();
+      lenisInstance?.destroy();
     };
   }, [shouldReduce]);
 

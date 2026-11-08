@@ -40,7 +40,7 @@ export function DailyBriefView({
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" aria-live="polite">
       {/* Top Headline Banner */}
       <div className="p-6 sm:p-8 rounded-2xl glass border border-[var(--primary)]/30 bg-gradient-to-b from-[var(--primary)]/10 via-[var(--surface-raised)] to-[var(--surface)] space-y-4 shadow-xl shadow-[var(--primary)]/5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -207,3 +207,4 @@ export function DailyBriefView({
     </div>
   );
 }
+

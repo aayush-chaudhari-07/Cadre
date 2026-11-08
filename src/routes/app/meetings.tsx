@@ -45,6 +45,7 @@ import {
 import { formatRelativeDate } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 
 interface MeetingsSearch {
   meetingId?: string;
@@ -56,6 +57,7 @@ export const Route = createFileRoute('/app/meetings')({
       meetingId: typeof search.meetingId === 'string' ? search.meetingId : undefined,
     };
   },
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
   component: MeetingsPage,
 });
 

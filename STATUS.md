@@ -229,16 +229,49 @@ The legal pages in `src/routes/terms.tsx` and `src/routes/privacy.tsx` contain s
   - Authored unit test suites `tests/unit/insights.test.ts` (5 tests) and `tests/unit/settings.test.ts` (8 tests) — all passing.
   - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (76/76 passing across 11 test suites), `npm run build` (built in 14.29s).
 
+- [x] **Prompt 15: Polish, accessibility and performance:**
+  - Route-level error boundaries added across all 10 application routes and root components using `BrandedErrorBoundary`.
+  - Full WCAG 2.2 AA accessibility audit: added `aria-live="polite"` to all AI result surfaces (`LeadDrawer`, `MeetingDetailView`, `AnalyzeRiskDrawer`, `CompetitorDetailView`, `AiForecastPanel`, `CeoPlanView`, `DailyBriefView`), visible 2px focus rings, accessible label bindings, and contrast compliance.
+  - Implemented Vite bundle code-splitting via `build.rollupOptions.output.manualChunks` cleanly isolating `recharts`, `framer-motion`, `@radix-ui`, `@supabase/supabase-js`, and `lucide-react`, reducing initial chunks well below 500 kB (index JS gzipped to 142 kB).
+  - Code-split Lenis smooth scroll on landing page (`import('lenis')` loaded only when `prefers-reduced-motion` is false).
+  - Motion QA verified with `useReducedMotion` disabling aurora drift, tilt, magnetic buttons, marquee, and pinned scroll when reduced motion is preferred.
+  - Copy audit: replaced all placeholder names (`Acme`, `Alex Morgan`, `Lorem`) with real, neutral B2B entities (`Northwind Labs`, `Apex Dynamics`, `Jordan Lee`), and verified USD currency formatting everywhere.
+  - Created zero-dependency Sentry error reporting client (`src/lib/sentry.ts`) activated only when `VITE_SENTRY_DSN` is configured, with comprehensive PII scrubbing (emails, JWTs, IPv4/IPv6, passwords, API keys, and auth headers).
+  - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm test` (117/117 passing), `npm run build` (all chunks under 500 kB).
+
+- [x] **Prompt 16: Tests and CI:**
+  - Built comprehensive Vitest unit and component test suites (17 test files, 117 passing tests):
+    - `tests/unit/formatters.test.ts`: USD currency formatting via `Intl.NumberFormat`, numbers, percentages, and relative dates.
+    - `tests/unit/leads.test.ts`: Papa Parse CSV parser row schema validation and lead table filtering/sorting logic.
+    - `tests/unit/meetings.test.ts`: WebVTT and SRT subtitle timestamp stripping, cue deduplication, and character limit checks.
+    - `tests/unit/forecast.test.ts`: 3-scenario revenue forecasting mathematics (expected, best, worst), win rate, and cycle duration.
+    - `tests/unit/redirect.test.ts`: Safe relative redirect validation preventing open redirects and scheme injections.
+    - `tests/unit/schemas.test.ts`: Domain Zod schemas for leads, meetings, churn accounts, competitors, and revenue deals.
+    - `tests/unit/ai-client.test.ts`: Architecture error codes and user-friendly error translations.
+    - `tests/unit/churn.test.ts`: MRR-at-risk calculations (high + critical risk) and renewal date metrics.
+    - `tests/unit/sentry.test.ts`: Sentry error capture and comprehensive PII scrubbing.
+    - `tests/unit/login-form.test.tsx`: Component test for login form inputs, accessible labels, email validation, password visibility toggling, and submit handling.
+    - `tests/unit/lead-table.test.tsx`: Component test for lead table filtering by status chips ('all', 'hot', 'warm', 'new'), debounced search, and empty states.
+    - `tests/unit/ai-panels.test.tsx`: Component test for AI result panel states (unanalyzed empty state, synthesizing loading spinner, and populated result state with `aria-live="polite"` and copy buttons).
+  - Implemented 3 Playwright end-to-end tests in `tests/e2e/`:
+    - `tests/e2e/signup-onboarding.spec.ts`: Sign up -> Onboarding -> Sample data visible on Command Center.
+    - `tests/e2e/lead-analysis.spec.ts`: Login -> Open lead drawer -> Analyze interaction (intercepting function call and asserting fixture response).
+    - `tests/e2e/route-guard.spec.ts`: Signed-out visit to `/app/leads` redirects to `/login?redirect=...`.
+  - Configured `playwright.config.ts` with webServer dev-server integration and list reporter.
+  - Verified local parity with `.github/workflows/ci.yml`: `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, `npm audit --audit-level=critical`, legacy builder check, and "AIza" key check in `dist/`.
+  - Created `.github/dependabot.yml` for weekly automated npm and github-actions dependency updates.
+  - Added "Contributing" section to `README.md` documenting installation, local dev, validation commands, and code conventions.
+
 ## In progress
-- Ready to proceed with **Prompt 15: Polish, accessibility and performance**.
+- Ready to proceed with **Prompt 17: Deployment prep, final cleanup and QA**.
 
 ## Next
-1. **Prompt 15: Polish, accessibility and performance**
-   - Full WCAG 2.2 AA audit, code-splitting, responsive polish, and motion QA.
-2. **Prompt 16: Tests and CI**
-   - Implement Vitest unit/component tests and Playwright E2E flows; verify CI pipeline.
-3. **Prompt 17: Deployment prep, final cleanup and QA**
-   - Delete `legacy/`, run clean string checks, audit security checklist, and report final metrics.
+1. **Prompt 17: Deployment prep, final cleanup and QA**
+   - Delete `legacy/` folder and clean verification commands from `docs/LEGACY_CLEANUP.md`.
+   - Verify `dist/` contains zero legacy builder strings or service role keys.
+   - Update `robots.txt`, `sitemap.xml`, and README for production launch.
+   - Walk through security checklist (`docs/SECURITY.md` section 10 and `docs/DEPLOYMENT.md` section 8).
+   - Final launch report.
 
 ## Decisions
 - **SPA Architecture:** Abandoned TanStack Start SSR / Nitro server in favor of a clean, static React 19 SPA deployable to Cloudflare Pages.

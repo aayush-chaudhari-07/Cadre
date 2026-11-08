@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from '@tanstack/react-router';
 import { RotateCcw, Home, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { captureException } from '@/lib/sentry';
 
 interface BrandedErrorBoundaryProps {
   error?: Error | unknown;
@@ -9,6 +10,12 @@ interface BrandedErrorBoundaryProps {
 }
 
 export function BrandedErrorBoundary({ error, reset }: BrandedErrorBoundaryProps) {
+  useEffect(() => {
+    if (error) {
+      captureException(error);
+    }
+  }, [error]);
+
   const errorMessage =
     error instanceof Error ? error.message : 'An unexpected application error occurred.';
 

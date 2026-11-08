@@ -12,6 +12,7 @@ import { GoogleButton } from '@/features/auth/components/google-button';
 import { useAuth } from '@/features/auth';
 import { loginSchema, getFriendlyAuthErrorMessage, type LoginInput } from '@/features/auth/schemas';
 import { validateRedirectPath } from '@/features/auth/utils';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 
 const loginSearchSchema = z.object({
   redirect: z.string().optional(),
@@ -22,6 +23,7 @@ export type LoginSearch = z.infer<typeof loginSearchSchema>;
 export const Route = createFileRoute('/login')({
   validateSearch: (search) => loginSearchSchema.parse(search),
   component: LoginPage,
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
 });
 
 function LoginPage() {

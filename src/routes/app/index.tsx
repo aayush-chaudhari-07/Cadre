@@ -27,9 +27,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { CountUp } from '@/components/motion/count-up';
 import { formatCurrency, formatRelativeDate } from '@/lib/format';
 import { toast } from 'sonner';
+import { BrandedErrorBoundary } from '@/components/branded-error-boundary';
 
 export const Route = createFileRoute('/app/')({
   component: CommandCenterPage,
+  errorComponent: ({ error, reset }) => <BrandedErrorBoundary error={error} reset={reset} />,
 });
 
 function CommandCenterPage() {
