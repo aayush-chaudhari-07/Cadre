@@ -271,6 +271,7 @@ The legal pages in `src/routes/terms.tsx` and `src/routes/privacy.tsx` contain s
   - Walked through `docs/SECURITY.md` section 10 and `docs/DEPLOYMENT.md` section 8 pre-launch checklists with evidence for every item.
   - Updated `docs/ROADMAP.md` checkboxes across Phases 0–4.
   - Configured CSP in `public/_headers` to allow Sentry ingestion (`*.ingest.sentry.io`, `*.sentry.io`).
+  - Fixed CI unit tests: added `test.env` in `vitest.config.ts`, mocked `@/lib/supabase` with `vi.mock` in `tests/unit/ai-client.test.ts`, and adjusted `formatCurrency` in `src/lib/format.ts` to format compact numbers cleanly (`$1.2M` / `$1M`). All 118 unit & component tests passing.
 
 ## In progress
 - None (All 17 prompts completed).

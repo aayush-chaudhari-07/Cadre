@@ -3,13 +3,21 @@
  */
 export function formatCurrency(
   amount: number,
-  options: { compact?: boolean; maximumFractionDigits?: number } = {},
+  options: {
+    compact?: boolean;
+    maximumFractionDigits?: number;
+    minimumFractionDigits?: number;
+  } = {},
 ): string {
-  const { compact = false, maximumFractionDigits = 2 } = options;
+  const { compact = false } = options;
+  const maximumFractionDigits = options.maximumFractionDigits ?? (compact ? 1 : 2);
+  const minimumFractionDigits = options.minimumFractionDigits ?? (compact ? 0 : undefined);
+
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     notation: compact ? "compact" : "standard",
+    ...(minimumFractionDigits !== undefined ? { minimumFractionDigits } : {}),
     maximumFractionDigits,
   }).format(amount);
 }

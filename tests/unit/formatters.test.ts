@@ -15,10 +15,13 @@ describe('Formatters (format.ts)', () => {
 
     it('supports compact notation for large numbers', () => {
       const compact1M = formatCurrency(1200000, { compact: true });
-      expect(compact1M).toMatch(/\$1\.2M/);
+      expect(compact1M).toBe('$1.2M');
+
+      const compactExact1M = formatCurrency(1000000, { compact: true });
+      expect(compactExact1M).toBe('$1M');
 
       const compact10K = formatCurrency(45000, { compact: true });
-      expect(compact10K).toMatch(/\$45K/);
+      expect(compact10K).toBe('$45K');
     });
 
     it('handles zero and negative amounts in USD', () => {
