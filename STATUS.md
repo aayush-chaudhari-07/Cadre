@@ -32,6 +32,17 @@ Last updated: Prompt 3 (Database, types and Supabase config)
   - Implemented comprehensive hand-written schema typings in `src/types/database.ts` covering all 14 tables, row/insert/update types, and RPC signatures (`create_organization`, `consume_ai_quota`, `seed_demo_data`, `clear_demo_data`, `is_org_member`).
   - Configured TanStack Query client (`src/lib/query-client.ts`) with sensible defaults (`staleTime: 30s`, `retry: 1`, `refetchOnWindowFocus: false`).
   - Authored multi-tenant RLS isolation test suite in `tests/sql/isolation.md` (SQL impersonation script and Supabase-JS verification snippets).
+- [x] **Prompt 4: Authentication, onboarding and route guards:**
+  - Implemented `AuthProvider` and `useAuth()` in `src/features/auth/` subscribing to `onAuthStateChange`, managing session/user/profile state, and exposing API helpers (`signUp`, `signIn`, `signOut`, `signInWithGoogle`, `requestPasswordReset`, `updatePassword`, `resendConfirmationEmail`).
+  - Implemented split layout auth pages matching Obsidian & Aurora aesthetic: `/login`, `/signup`, `/forgot-password`, `/reset-password` with glass cards, accessible validation (Zod + React Hook Form), show/hide passwords, Google OAuth button, and the animated SVG agent-node motif (`AgentOrbitVisual`).
+  - Added user-friendly error translations for all common Supabase authentication error strings and a post-signup "Check your email" confirmation screen with resend cooldown timer.
+  - Implemented `WorkspaceProvider` and `useWorkspace()` in `src/features/workspace/` loading primary organization membership and wrapping `create_organization`, `seed_demo_data`, and `clear_demo_data` RPCs.
+  - Created `/onboarding` page with workspace name input, "Start with sample data" switch (default true), and celebratory `Burst` animation before transitioning to `/app`.
+  - Configured route guard in `src/routes/app/route.tsx`: `beforeLoad` checks session and membership, redirecting unauthenticated visitors to `/login?redirect=...` and workspace-less users to `/onboarding`.
+  - Validated safe relative redirect paths with `validateRedirectPath` protecting against open redirects and scheme injections.
+  - Created `/app/index.tsx` Command Center placeholder displaying real user profile name, active workspace badge, sign-out button, and RPC demo data trigger controls.
+  - Added unit test suites `tests/unit/redirect.test.ts` (6 tests) and `tests/unit/auth-schemas.test.ts` (12 tests) — all 18 passing in Vitest.
+  - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (18/18 passing), `npm run build` (built in 4.10s).
 
 ## How to generate types from your remote Supabase project
 Once you have created your Supabase project in the Supabase Dashboard:
@@ -54,14 +65,14 @@ Once you have created your Supabase project in the Supabase Dashboard:
 *(Note: If using local Docker development instead, run `npx supabase start` followed by `npm run types`).*
 
 ## In progress
-- Ready to proceed with **Prompt 4: Authentication, onboarding and route guards**.
+- Ready to proceed with **Prompt 5: App shell**.
 
 ## Next
-1. **Prompt 4: Authentication, onboarding and route guards**
-   - Implement `AuthProvider`, `/login`, `/signup`, `/forgot-password`, `/reset-password`.
-   - Build `WorkspaceProvider` and `/onboarding`.
-   - Enforce route protection on `/app/*`.
-2. **Prompt 5: App shell**
+1. **Prompt 5: App shell**
+   - Build `src/routes/app/route.tsx` with collapsible sidebar (240px / 72px, drawer on mobile), top bar, breadcrumb, Cmd+K palette.
+   - Stub all 9 module route files as simple placeholder pages with titles.
+   - Branded 404 and error boundary pages with agent-node motif.
+2. **Prompt 6: Landing page, pricing and legal pages**
    - Build `src/routes/app/route.tsx` with collapsible sidebar, top bar, Cmd+K palette.
    - Stub module routes with branded 404 and error boundaries.
 3. **Prompt 6: Landing page, pricing and legal pages**
