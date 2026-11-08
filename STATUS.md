@@ -1,6 +1,6 @@
 # Cadre Project Status
 
-Last updated: Prompt 9 (Meetings module)
+Last updated: Prompt 10 (Churn module)
 
 ## Done
 - [x] Full architectural and codebase audit completed (`PROJECT_INFO.md`).
@@ -131,26 +131,40 @@ The legal pages in `src/routes/terms.tsx` and `src/routes/privacy.tsx` contain s
   - Created unit tests in `tests/unit/meetings.test.ts` (6 tests) verifying VTT, SRT, formatting stripping, deduplication, and character length validation.
   - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (39/39 passing), `npm run build` (built in 7.08s).
 
+- [x] **Prompt 10: Churn module:**
+  - Implemented `supabase/functions/analyze-churn/index.ts` with CORS, JWT authentication, Support agent enabled check, daily quota validation, Gemini reasoning with `CHURN_ANALYSIS_PROMPT`, automatic account metrics update (`risk_level`, `health_score = 100 - risk_score`, `last_analysis`), and audit entry in `agent_runs` for the Support agent.
+  - Implemented `src/features/churn/`:
+    - `metrics.ts`: pure functions for `calculateTotalMrr`, `calculateMrrAtRisk` (high + critical risk), `countAccountsAtRisk`, `getDaysUntilRenewal` ("in N days", "Today", "Tomorrow"), `countUpcomingRenewals` (30-day window), and `calculateChurnSummaryMetrics`.
+    - `schemas.ts`: account validation schemas, filter options, and sort types.
+    - `api.ts`: Supabase queries for accounts filtering by risk tier, searching by name/plan, and sorting by MRR, renewal date, health score, or name.
+    - `hooks.ts`: React Query hooks (`useAccounts`, `useAccount`, `useCreateAccount`, `useUpdateAccount`, `useDeleteAccount`, `useAnalyzeChurn`).
+    - `components/risk-badge.tsx`: color-tokenized badge for Low (mint), Medium (cyan), High (gold), and Critical (danger) risk tiers.
+    - `components/health-score-bar.tsx`: visual health progress bar (0–100) with color states.
+    - `components/add-edit-account-dialog.tsx`: dialog with account name, plan, MRR (USD), renewal date, editable signals tag list (add, remove, quick suggestion chips), and context notes.
+    - `components/delete-account-dialog.tsx`: confirmation modal.
+    - `components/analyze-risk-drawer.tsx`: right sheet drawer displaying account stats, health score, signals, AI evaluation banner with re-analyze button, identified root causes/reasons, retention plays with low/medium/high effort badges, and a draft check-in message with copy button.
+  - Implemented `/app/churn` route page with 4 KPI summary cards (Total MRR, MRR at Risk, Accounts at Risk, Next Renewals), search, risk tier filter chips, sortable table, empty states with sample data loader, and error states.
+  - Created unit tests in `tests/unit/churn.test.ts` (6 tests) verifying total MRR, high+critical MRR-at-risk, account counts, renewal date calculations, and empty array handling.
+  - Validated: `npm run lint` (0 errors), `npm run typecheck` (0 errors), `npm run test` (45/45 passing), `npm run build` (built in 6.92s).
+
 ## In progress
-- Ready to proceed with **Prompt 10: Churn module**.
+- Ready to proceed with **Prompt 11: Competitors module**.
 
 ## Next
-1. **Prompt 10: Churn module**
-   - Build `/app/churn` account table, MRR-at-risk metrics, and `analyze-churn` Edge Function.
-2. **Prompt 11: Competitors module**
+1. **Prompt 11: Competitors module**
    - Build `/app/competitors` radar, battlecards, and `scan-competitor` Edge Function with SSRF controls.
-3. **Prompt 12: Revenue and Command Center**
+2. **Prompt 12: Revenue and Command Center**
    - Build `/app/revenue` forecast models, kanban board, and `explain-forecast` Edge Function.
    - Wire `/app` Command Center with live aggregates.
-4. **Prompt 13: Agents and AI CEO**
+3. **Prompt 13: Agents and AI CEO**
    - Build `/app/agents` roster and `/app/ceo` strategic planner with `ceo-command` Edge Function.
-5. **Prompt 14: Insights and Settings**
+4. **Prompt 14: Insights and Settings**
    - Build `/app/insights` daily brief (`daily-insights` Edge Function) and `/app/settings` with `delete-account`.
-6. **Prompt 15: Polish, accessibility and performance**
+5. **Prompt 15: Polish, accessibility and performance**
    - Full WCAG 2.2 AA audit, code-splitting, responsive polish, and motion QA.
-7. **Prompt 16: Tests and CI**
+6. **Prompt 16: Tests and CI**
    - Implement Vitest unit/component tests and Playwright E2E flows; verify CI pipeline.
-8. **Prompt 17: Deployment prep, final cleanup and QA**
+7. **Prompt 17: Deployment prep, final cleanup and QA**
    - Delete `legacy/`, run clean string checks, audit security checklist, and report final metrics.
 
 ## Decisions

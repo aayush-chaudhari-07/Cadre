@@ -23,3 +23,4 @@ export interface MeetingFilters {
   search?: string;
   sentiment?: 'all' | 'positive' | 'neutral' | 'negative';
 }
+

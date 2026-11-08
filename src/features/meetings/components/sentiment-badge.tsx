@@ -62,3 +62,4 @@ export function SentimentBadge({ sentiment, className }: SentimentBadgeProps) {
     </Badge>
   );
 }
+

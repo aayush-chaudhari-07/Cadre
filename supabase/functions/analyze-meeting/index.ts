@@ -115,3 +115,4 @@ ${body.transcript}
     return error('internal_error', 'An unexpected error occurred while analyzing the meeting transcript.', 500, req);
   }
 }
+
